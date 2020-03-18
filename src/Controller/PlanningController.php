@@ -14,7 +14,6 @@ class PlanningController extends AbstractController
      */
     public function index()
     {
-
         // https://fullcalendar.io/
 
         return $this->render('planning/index.html.twig', [
