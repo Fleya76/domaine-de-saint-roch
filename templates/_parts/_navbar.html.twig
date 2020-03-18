@@ -12,9 +12,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="{{ path("planning") }}">Prise de rendez-vous</a>
             </li>
-            <li class="nav-item">
+            {# <li class="nav-item">
                 <a class="nav-link" href="{{ path("planning") }}">Contact</a>
-            </li>
+            </li> #}
         </ul>
          <ul class="navbar-nav ml-auto">
             {% if not app.user %}
@@ -26,28 +26,32 @@
                 </li>  
             {% endif %}
         
+            {% if is_granted('ROLE_ADMIN') %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="{{ path("planning") }}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Administration
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{ path("app_register") }}">Gestion du planning</a>
+                        <a class="dropdown-item" href="{{ path("app_register") }}">Les profils en attentent de validation</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{{ path("app_register") }}">Mon profil</a>
+                    </div>
+                </li>
+            {% endif %}
             
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="{{ path("planning") }}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Administration
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{{ path("app_register") }}">Gestion du planning</a>
-                    <a class="dropdown-item" href="{{ path("app_register") }}">Les profils en attentent de validation</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{{ path("app_register") }}">Mon profil</a>
-                </div>
-            </li>
             {% if app.user %}
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path("app_logout") }}">Déconnexion</a>
                 </li>
             {% endif %}
          </ul>
-        <form class="form-inline my-2 my-lg-0">
-            {# //TODO Créer un filtre de recherche des utilisateurs #}
-            <input class="form-control mr-sm-2" type="text" placeholder="Cherche un utilisateur">
-            <button class="btn btn-secondary my-2 my-sm-0" type="submit">Rechercher</button>
-        </form>
+        {% if is_granted('ROLE_ADMIN') %}
+            <form class="form-inline my-2 my-lg-0">
+                {# //TODO Créer un filtre de recherche des utilisateurs #}
+                <input class="form-control mr-sm-2" type="text" placeholder="Cherche un utilisateur">
+                <button class="btn btn-secondary my-2 my-sm-0" type="submit">Rechercher</button>
+            </form>
+        {% endif %}
     </div>
 </nav>
