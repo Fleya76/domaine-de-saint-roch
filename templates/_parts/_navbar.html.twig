@@ -1,0 +1,53 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <a class="navbar-brand" href="{{ path("planning") }}">Domaine de Saint-Roch</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+    <div class="collapse navbar-collapse" id="navbarColor01">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ path("planning") }}">Planning</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path("planning") }}">Prise de rendez-vous</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path("planning") }}">Contact</a>
+            </li>
+        </ul>
+         <ul class="navbar-nav ml-auto">
+            {% if not app.user %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path("app_login") }}">Connexion</a>
+                </li>  
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path("app_register") }}">Inscription</a>
+                </li>  
+            {% endif %}
+        
+            
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="{{ path("planning") }}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Administration
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{{ path("app_register") }}">Gestion du planning</a>
+                    <a class="dropdown-item" href="{{ path("app_register") }}">Les profils en attentent de validation</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{{ path("app_register") }}">Mon profil</a>
+                </div>
+            </li>
+            {% if app.user %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path("app_logout") }}">Déconnexion</a>
+                </li>
+            {% endif %}
+         </ul>
+        <form class="form-inline my-2 my-lg-0">
+            {# //TODO Créer un filtre de recherche des utilisateurs #}
+            <input class="form-control mr-sm-2" type="text" placeholder="Cherche un utilisateur">
+            <button class="btn btn-secondary my-2 my-sm-0" type="submit">Rechercher</button>
+        </form>
+    </div>
+</nav>
