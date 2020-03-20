@@ -8,6 +8,7 @@ use App\Repository\BookingRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -15,7 +16,7 @@ class BookingController extends AbstractController
 {   
     /**
      * @Route("/booking", name="booking_index", methods={"GET"})
-     * @IsGranted("IS_AUTHENTICATED_FULLY")
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
      */
     public function index(BookingRepository $bookingRepository): Response
     {
@@ -25,7 +26,19 @@ class BookingController extends AbstractController
     }
 
     /**
+     * @Route("/booking/overview", name="booking_overview", methods={"GET"})
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
+     */
+    public function overview(BookingRepository $bookingRepository): Response
+    {
+        return $this->render('booking/overview.html.twig', [
+            'bookings' => array_reverse($bookingRepository->findAll()),
+        ]);
+    }
+
+    /**
      * @Route("/booking/new", name="booking_new", methods={"GET","POST"})
+     * @Security("is_granted('ROLE_ADMIN')")
      */
     public function new(Request $request): Response
     {
@@ -59,6 +72,7 @@ class BookingController extends AbstractController
 
     /**
      * @Route("/booking/{id}/edit", name="booking_edit", methods={"GET","POST"})
+     * @Security("is_granted('ROLE_ADMIN')")
      */
     public function edit(Request $request, Booking $booking): Response
     {
@@ -79,6 +93,7 @@ class BookingController extends AbstractController
 
     /**
      * @Route("/booking/{id}", name="booking_delete", methods={"DELETE"})
+     * @Security("is_granted('ROLE_ADMIN')")
      */
     public function delete(Request $request, Booking $booking): Response
     {

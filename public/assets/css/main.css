@@ -1,3 +1,30 @@
 .bg-primary{
     background-color: #282726!important
 }
+
+.blue{
+    color: #7B93D1;
+}
+.green{
+    color: #A6D166;
+}
+.red{
+    color: #D16952;
+}
+
+@media screen and (max-width: 767px) {
+    .fc-toolbar{
+        display: block!important;
+    }
+    /* .fc-scroller{
+        overflow: initial!important;
+    } */
+    .tableOverview{
+        font-size: 0.6em;
+    }
+
+    .tableOverview th {
+        padding: 0em!important;
+        vertical-align: inherit!important;
+    }
+  }

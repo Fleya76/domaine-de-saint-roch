@@ -1,9 +1,15 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <a href="{{ path('booking_new') }}">Create new booking</a>
+    
     <div class="container">
-        <div id="calendar-holder"></div>
+        <div class="mt-3">
+            En <span class="blue"><b>bleu</b></span> : Les séances à la clinique vétérinaire de la côte fleurie à Bonneville sur Touques <br>
+            En <span class="green"><b>vert</b></span> : Les séancesau domaine de Moyaux <br>
+            En <span class="red"><b>rouge</b></span> : Les séances extérieures <br>
+        </div>
+
+        <div class="mt-2" id="calendar-holder"></div>
     </div>
 {% endblock %}
 
@@ -27,6 +33,7 @@
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 defaultView: 'dayGridMonth',
                 editable: false,
+                eventLimit: false, 
                 eventSources: [
                     {
                         url: "{{ path('fc_load_events') }}",
@@ -51,5 +58,6 @@
             calendar.setOption('locale', 'fr');
             calendar.render();
         });
+
     </script>
 {% endblock %}

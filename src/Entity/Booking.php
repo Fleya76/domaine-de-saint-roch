@@ -31,6 +31,16 @@ class Booking
      */
     private $title;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="bookings")
+     */
+    private $category;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Place", inversedBy="bookings")
+     */
+    private $place;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -68,6 +78,30 @@ class Booking
     public function setTitle(?string $title): self
     {
         $this->title = $title;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    public function getPlace(): ?place
+    {
+        return $this->place;
+    }
+
+    public function setPlace(?place $place): self
+    {
+        $this->place = $place;
 
         return $this;
     }
