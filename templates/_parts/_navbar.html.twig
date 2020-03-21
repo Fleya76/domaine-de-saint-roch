@@ -1,18 +1,20 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <a class="navbar-brand" href="{{ path("booking_index") }}">Domaine de Saint-Roch</a>
+    <a class="navbar-brand" href="{{ path("booking_index") }}">Domaine de Saint-Roch 🐶</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
     <div class="collapse navbar-collapse" id="navbarColor01">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="{{ path("booking_index") }}">Planning</span></a>
-            </li>
-            <li class="nav-item">
-                {# TODO: Créer le système de prise de rendez-vous individuel #}
-                <a class="nav-link" href="{{ path("booking_index") }}">Prise de rendez-vous</a>
-            </li>
+            {% if app.user %}
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{ path("booking_index") }}">Planning</span></a>
+                </li>
+                <li class="nav-item">
+                    {# TODO: Créer le système de prise de rendez-vous individuel #}
+                    <a class="nav-link" href="{{ path("booking_index") }}">Prise de rendez-vous</a>
+                </li> 
+            {% endif %}
             {# <li class="nav-item">
                 <a class="nav-link" href="{{ path("planning") }}">Contact</a>
             </li> #}
@@ -49,33 +51,30 @@
                         
                         <div class="dropdown-divider"></div>
                         {# TODO: Tableau d'utilisateurs #}
-                        <a class="dropdown-item" href="{{ path("app_register") }}">Les utilisateurs inscrits</a>
+                        <a class="dropdown-item" href="{{ path("user_index") }}">Les clients du Domaine</a>
                         {# TODO: Les futurs fins de contrats + badge #}
-                        <a class="dropdown-item" href="{{ path("app_register") }}">Les futurs fin de contrat <span class="badge badge-danger">2</span></a>
+                        <a class="dropdown-item" href="{{ path("app_register") }}">Les clients en fin de contrat <span class="badge badge-danger">2</span></a>
                         {# TODO: Faire les badges de compte à valider + tableau de validation de compte#}
-                        <a class="dropdown-item" href="{{ path("app_register") }}">Les profils en attentent de validation <span class="badge badge-success">4</span></a>
+                        <a class="dropdown-item" href="{{ path("user_validation") }}">Les profils en attentent de validation <span class="badge badge-success">4</span></a>
                         <div class="dropdown-divider"></div>
                         {# TODO: Faire les badges de compte à valider #}
                         <a class="dropdown-item" href="{{ path("app_register") }}">Mon profil</a>
                     </div>
                 </li>
             {% endif %}
-
-            {% if is_granted('ROLE_ADMIN') %}
-                <li class="nav-item">
-                    {# TODO: Faire le formulaire d'ajout de cours #}
-                    <a class="nav-link" href="{{ path("booking_new") }}">Ajouter un cours</a>
-                </li>    
-            {% else %}
-                <li class="nav-item">
-                    {# TODO: Faire les badges de compte à valider #}
-                    <a class="nav-link" href="{{ path("booking_index") }}">Mes cours</a>
-                </li>     
-            {% endif %}
-
-            
+       
             {% if app.user %}
-         
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li class="nav-item">
+                        {# TODO: Faire le formulaire d'ajout de cours #}
+                        <a class="nav-link" href="{{ path("booking_new") }}">Ajouter un cours</a>
+                    </li>    
+                {% else %}
+                    <li class="nav-item">
+                        {# TODO: Faire les badges de compte à valider #}
+                        <a class="nav-link" href="{{ path("booking_index") }}">Mes cours</a>
+                    </li>     
+                {% endif %}
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path("app_logout") }}">Déconnexion</a>
                 </li>

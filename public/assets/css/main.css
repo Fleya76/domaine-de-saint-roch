@@ -11,6 +11,9 @@
 .red{
     color: #D16952;
 }
+td a {
+    color: black!important;
+}
 
 @media screen and (max-width: 767px) {
     .fc-toolbar{
@@ -22,7 +25,6 @@
     .tableOverview{
         font-size: 0.6em;
     }
-
     .tableOverview th {
         padding: 0em!important;
         vertical-align: inherit!important;

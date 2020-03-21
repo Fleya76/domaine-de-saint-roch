@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Les utilisateurs en attentent de validation 🙋‍♂️{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+    <h1>Les utilisateurs en attentent de validation 🙋‍♂️</h1>
+        <div class="table-responsive mt-5">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th class="th-lg">Prénom</th>
+                    <th class="th-lg">Nom de famille</th>
+                    <th class="th-lg">Nom du chien</th>
+                    <th class="th-lg">Race du chien</th>
+                    <th class="th-lg">Début de contrat</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td><a href="{{ path('user_show', {'id': user.id}) }}">{{ user.id }}</a></td>
+                            <td><a href="{{ path('user_show', {'id': user.id}) }}">{{ user.firstName }}</a></td>
+                            <td><a href="{{ path('user_show', {'id': user.id}) }}">{{ user.lastName }}</a></td>
+                            <td><a href="{{ path('user_show', {'id': user.id}) }}">Nom du chien</a></td>
+                            <td><a href="{{ path('user_show', {'id': user.id}) }}">Race du chien</a></td>
+                            <td><a href="{{ path('user_show', {'id': user.id}) }}">21/03/2020</a></td>
+                            {# <td>{{ user.email }}</td>
+                            <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+                            <td>{{ user.password }}</td>
+                            <td>{{ user.validation ? 'Yes' : 'No' }}</td> #}
+                            <td>
+                                <a href="{{ path('user_show', {'id': user.id}) }}"><span class="blue">Valider</span></a><br>
+                                <a href="{{ path('user_edit', {'id': user.id}) }}"><span class="red">Refuser</span></a><br>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="8">Aucun utilisateur inscri</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

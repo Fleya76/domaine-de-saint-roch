@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -34,6 +36,31 @@ class User implements UserInterface
      * @ORM\Column(type="string")
      */
     private $password;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $validation;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $firstName;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $lastName;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Dog", mappedBy="user")
+     */
+    private $dog;
+
+    public function __construct()
+    {
+        $this->dog = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -111,5 +138,72 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getValidation(): ?bool
+    {
+        return $this->validation;
+    }
+
+    public function setValidation(bool $validation): self
+    {
+        $this->validation = $validation;
+
+        return $this;
+    }
+
+    public function getFirstName(): ?string
+    {
+        return $this->firstName;
+    }
+
+    public function setFirstName(string $firstName): self
+    {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    public function getLastName(): ?string
+    {
+        return $this->lastName;
+    }
+
+    public function setLastName(string $lastName): self
+    {
+        $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Dog[]
+     */
+    public function getDog(): Collection
+    {
+        return $this->dog;
+    }
+
+    public function addDog(Dog $dog): self
+    {
+        if (!$this->dog->contains($dog)) {
+            $this->dog[] = $dog;
+            $dog->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDog(Dog $dog): self
+    {
+        if ($this->dog->contains($dog)) {
+            $this->dog->removeElement($dog);
+            // set the owning side to null (unless already changed)
+            if ($dog->getUser() === $this) {
+                $dog->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }

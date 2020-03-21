@@ -20,14 +20,14 @@ class BookingController extends AbstractController
      */
     public function index(BookingRepository $bookingRepository): Response
     {
-        return $this->render('booking/index.html.twig', [
+        return $this->render('booking/calendar.html.twig', [
             'bookings' => $bookingRepository->findAll(),
         ]);
     }
 
     /**
      * @Route("/booking/overview", name="booking_overview", methods={"GET"})
-     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
+     * @Security("is_granted('ROLE_ADMIN')")
      */
     public function overview(BookingRepository $bookingRepository): Response
     {

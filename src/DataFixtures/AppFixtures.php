@@ -3,10 +3,11 @@
 namespace App\DataFixtures;
 
 use Faker\Factory;
+use App\Entity\Dog;
 use App\Entity\User;
+use App\Entity\Place;
 use App\Entity\Booking;
 use App\Entity\Category;
-use App\Entity\Place;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -27,8 +28,11 @@ class AppFixtures extends Fixture
 
         $admin = new User();
         $admin->setEmail("fabien.poret@outlook.fr")
-            ->setRoles(['ROLE_USER','ROLE_ADMIN'])
-            ->setPassword($this->encoder->encodePassword($admin,'admin76'));
+            ->setRoles(['ROLE_USER', 'ROLE_SUBSCRIBER', 'ROLE_ADMIN'])
+            ->setLastName('Fabien')
+            ->setFirstName('PORET')
+            ->setPassword($this->encoder->encodePassword($admin,'admin76'))
+            ->setValidation(true);
         $manager->persist($admin);
 
         $category1 = new Category();
@@ -70,6 +74,28 @@ class AppFixtures extends Fixture
         $place3 = new Place();
         $place3->setTitle('Extérieure');
         $manager->persist($place3);
+
+        for ($u=0; $u < 50; $u++) { 
+            $user = new User();
+            $user->setEmail($faker->email())
+                ->setLastName($faker->lastName())
+                ->setFirstName($faker->firstNameMale())
+                ->setPassword($this->encoder->encodePassword($user,'admin76'));
+                if($u < 25) {
+                    $user->setRoles(['ROLE_USER','ROLE_SUBSCRIBER'])
+                        ->setValidation(true);
+                }else{
+                    $user->setRoles(['ROLE_USER','ROLE_NOT_SUBSCRIBER'])
+                        ->setValidation(false);
+                }
+            $manager->persist($user);
+
+            $dog = new Dog();
+            $dog->setName($faker->lastName())
+                ->setBreed('Malinois')
+                ->setUser($user);
+            $manager->persist($dog);
+        }
 
         for ($e=0; $e < 70; $e++) { 
             # code...
