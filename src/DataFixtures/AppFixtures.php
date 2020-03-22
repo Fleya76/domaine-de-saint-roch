@@ -26,11 +26,13 @@ class AppFixtures extends Fixture
     {
         $faker = \Faker\Factory::create("fr_FR");
 
+
         $admin = new User();
         $admin->setEmail("fabien.poret@outlook.fr")
             ->setRoles(['ROLE_USER', 'ROLE_SUBSCRIBER', 'ROLE_ADMIN'])
             ->setLastName('Fabien')
             ->setFirstName('PORET')
+            ->setPhone('0695060476')
             ->setPassword($this->encoder->encodePassword($admin,'admin76'))
             ->setValidation(true);
         $manager->persist($admin);
@@ -80,6 +82,7 @@ class AppFixtures extends Fixture
             $user->setEmail($faker->email())
                 ->setLastName($faker->lastName())
                 ->setFirstName($faker->firstNameMale())
+                ->setPhone($faker->phoneNumber())
                 ->setPassword($this->encoder->encodePassword($user,'admin76'));
                 if($u < 25) {
                     $user->setRoles(['ROLE_USER','ROLE_SUBSCRIBER'])

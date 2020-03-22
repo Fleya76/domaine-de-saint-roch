@@ -57,6 +57,11 @@ class User implements UserInterface
      */
     private $dog;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $phone;
+
     public function __construct()
     {
         $this->dog = new ArrayCollection();
@@ -203,6 +208,18 @@ class User implements UserInterface
                 $dog->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(?string $phone): self
+    {
+        $this->phone = $phone;
 
         return $this;
     }

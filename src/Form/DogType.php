@@ -2,31 +2,26 @@
 
 namespace App\Form;
 
-use App\Entity\Booking;
+use App\Entity\Dog;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class BookingType extends AbstractType
+class DogType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('beginAt')
-            ->add('endAt')
-            ->add('title')
-
-            // ->add('dog',EntityType::class,[
-            //     'class'=>Dog::class,
-            //     'choice_label' => 'name',
-            // ])
+            ->add('name')
+            ->add('breed')
+            // ->add('user')
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Booking::class,
+            'data_class' => Dog::class,
         ]);
     }
 }

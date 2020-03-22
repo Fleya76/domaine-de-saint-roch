@@ -1,15 +1,26 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Inscription au Domaine de Saint-Roch{% endblock %}
 
 {% block body %}
-    <h1>Register</h1>
+    <div class="container">
+        <h1>Inscription au Domaine de Saint-Roch</h1>
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+ 
+        {{ form_start(registrationForm) }}
+            {{ form_row(registrationForm.firstName) }}
+            {{ form_row(registrationForm.lastName) }}
 
-        <button class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+            {{ form_row(registrationForm.email) }}
+            {{ form_row(registrationForm.phone) }}
+            {# {{ form_row(registrationForm.dog) }} #}
+
+
+            {{ form_row(registrationForm.dog.vars.prototype.name) }}
+
+            {{ form_row(registrationForm.dog.vars.prototype.breed) }}
+            {{ form_row(registrationForm.password) }}
+            <button class="btn">Register</button>
+        {{ form_end(registrationForm) }}
+    </div>
 {% endblock %}
