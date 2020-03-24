@@ -53,7 +53,7 @@ class User implements UserInterface
     private $lastName;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Dog", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="App\Entity\Dog", mappedBy="user", cascade={"persist"})
      */
     private $dog;
 

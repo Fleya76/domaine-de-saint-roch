@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Dog;
 use App\Entity\User;
+use App\Form\DogType;
 use App\Form\RegistrationType;
 use App\Security\LoginFormAuthenticator;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,6 +26,8 @@ class RegistrationController extends AbstractController
 
         
         $user = new User();
+        $dog = new Dog();
+
         $form = $this->createForm(RegistrationType::class, $user);
         $form->handleRequest($request);
 
@@ -35,11 +39,13 @@ class RegistrationController extends AbstractController
                     $form->get('password')->getData()
                 )
             );
-
-            dump($user->getDog());
+            $user->setValidation(false);
+            // $user->addDog($dog);
+            // $user->addDog($user->getDog());
             $user->setRoles(["ROLE_USER", "ROLE_NOT_SUBSCRIBER"]);
 
             $entityManager = $this->getDoctrine()->getManager();
+            // $entityManager->persist($dog);
             $entityManager->persist($user);
             $entityManager->flush();
 

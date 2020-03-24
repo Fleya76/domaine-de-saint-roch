@@ -13,12 +13,12 @@
 
             {{ form_row(registrationForm.email) }}
             {{ form_row(registrationForm.phone) }}
-            {# {{ form_row(registrationForm.dog) }} #}
 
 
             {{ form_row(registrationForm.dog.vars.prototype.name) }}
-
             {{ form_row(registrationForm.dog.vars.prototype.breed) }}
+
+
             {{ form_row(registrationForm.password) }}
             <button class="btn">Register</button>
         {{ form_end(registrationForm) }}
