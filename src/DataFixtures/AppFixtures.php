@@ -2,12 +2,14 @@
 
 namespace App\DataFixtures;
 
+use DateInterval;
 use Faker\Factory;
 use App\Entity\Dog;
 use App\Entity\User;
 use App\Entity\Place;
 use App\Entity\Booking;
 use App\Entity\Category;
+use App\Entity\Contract;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -98,15 +100,20 @@ class AppFixtures extends Fixture
                 ->setBreed('Malinois')
                 ->setUser($user);
             $manager->persist($dog);
+            
+            $contract = new Contract();
+            $contract->setBeginAt($faker->dateTimeBetween('-3 months'))
+                ->setUser($user);
+            $contract->setEndAt($faker->dateTimeInInterval($contract->getBeginAt(), $interval = '+ 1 year'));
+            $manager->persist($contract);
         }
-
         for ($e=0; $e < 70; $e++) { 
             # code...
             $booking = new Booking();
             $booking->setTitle($faker->sentence($nbWords = 6, $variableNbWords = true))
                 ->setBeginAt($faker->dateTimeBetween('-3 months'));
 
-            $booking->setEndAt( $faker->dateTimeInInterval($booking->getBeginAt(), $interval = '+ 2 hours'));
+            $booking->setEndAt($faker->dateTimeInInterval($booking->getBeginAt(), $interval = '+ 2 hours'));
             
             if($e>=60){
                 $booking->setCategory($category1);

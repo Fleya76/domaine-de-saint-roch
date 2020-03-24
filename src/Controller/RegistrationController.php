@@ -26,11 +26,11 @@ class RegistrationController extends AbstractController
 
         
         $user = new User();
-        $dog = new Dog();
 
         $form = $this->createForm(RegistrationType::class, $user);
         $form->handleRequest($request);
 
+        dump($request);
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
             $user->setPassword(

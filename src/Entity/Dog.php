@@ -31,6 +31,11 @@ class Dog
      */
     private $user;
 
+    public function __toString()
+    {
+        return $this->getName() . ' - ' . $this->getBreed();
+    }
+
     public function getId(): ?int
     {
         return $this->id;

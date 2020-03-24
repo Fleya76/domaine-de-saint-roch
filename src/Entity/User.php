@@ -2,11 +2,15 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use DateTime;
+use DateInterval;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -37,6 +41,11 @@ class User implements UserInterface
      */
     private $password;
 
+    // /**
+    // * @Assert\EqualTo(propertyPath="password",message="Vous n'avez pas saisi le même mot de passe")
+    // */
+    // public $confirm_password;
+
     /**
      * @ORM\Column(type="boolean")
      */
@@ -62,9 +71,15 @@ class User implements UserInterface
      */
     private $phone;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Contract", mappedBy="user", cascade={"persist"})
+     */
+    private $contract;
+
     public function __construct()
     {
         $this->dog = new ArrayCollection();
+        $this->contract = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -220,6 +235,39 @@ class User implements UserInterface
     public function setPhone(?string $phone): self
     {
         $this->phone = $phone;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Contract[]
+     */
+    public function getContract(): Collection
+    {
+        return $this->contract;
+    }
+
+    public function addContract(Contract $contract): self
+    {
+        if (!$this->contract->contains($contract)) {
+            $this->contract[] = $contract;
+            $contract->setUser($this);
+            dump($contract->getBeginAt());
+            $contract->setEndAt($contract->getBeginAt()->add(new DateInterval('P1Y')));
+        }
+
+        return $this;
+    }
+
+    public function removeContract(Contract $contract): self
+    {
+        if ($this->contract->contains($contract)) {
+            $this->contract->removeElement($contract);
+            // set the owning side to null (unless already changed)
+            if ($contract->getUser() === $this) {
+                $contract->setUser(null);
+            }
+        }
 
         return $this;
     }

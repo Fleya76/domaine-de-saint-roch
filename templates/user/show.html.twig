@@ -3,44 +3,64 @@
 {% block title %}User{% endblock %}
 
 {% block body %}
-    <h1>User</h1>
+    <div class="container">
+        <h1>User</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ user.id }}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{ user.email }}</td>
-            </tr>
-            <tr>
-                <th>Roles</th>
-                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-            </tr>
-            <tr>
-                <th>Password</th>
-                <td>{{ user.password }}</td>
-            </tr>
-            <tr>
-                <th>Validation</th>
-                <td>{{ user.validation ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>FirstName</th>
-                <td>{{ user.firstName }}</td>
-            </tr>
-            <tr>
-                <th>LastName</th>
-                <td>{{ user.lastName }}</td>
-            </tr>
-        </tbody>
-    </table>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Id</th>
+                    <td>{{ user.id }}</td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td>{{ user.email }}</td>
+                </tr>
+                <tr>
+                    <th>Roles</th>
+                    <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+                </tr>
+                <tr>
+                    <th>Password</th>
+                    <td>{{ user.password }}</td>
+                </tr>
+                <tr>
+                    <th>Validation</th>
+                    <td>{{ user.validation ? 'Yes' : 'No' }}</td>
+                </tr>
+                <tr>
+                    <th>FirstName</th>
+                    <td>{{ user.firstName }}</td>
+                </tr>
+                <tr>
+                    <th>LastName</th>
+                    <td>{{ user.lastName }}</td>
+                </tr>
+                <tr>
+                    <th>phone</th>
+                    <td>{{ user.phone }}</td>
+                </tr>
+                {% for dog in user.dog %}
+                <tr>
+                    <th>dog</th>
+                    <td>{{ dog }}</td>
+                </tr>
+                {% endfor %}
 
-    <a href="{{ path('user_index') }}">back to list</a>
+                {% for contract in user.contract %}
+                <tr>
+                    <th>contract</th>
+                    <td>{{contract}}</td>
+                </tr>
+                {% endfor %}
 
-    <a href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
+            </tbody>
+        </table>
 
-    {{ include('user/_delete_form.html.twig') }}
+        <a href="{{ path('booking_index') }}">back to list</a>
+
+        <a href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
+
+        {{ include('user/_delete_form.html.twig') }}
+    </div>
 {% endblock %}

@@ -15,11 +15,6 @@ class BookingType extends AbstractType
             ->add('beginAt')
             ->add('endAt')
             ->add('title')
-
-            // ->add('dog',EntityType::class,[
-            //     'class'=>Dog::class,
-            //     'choice_label' => 'name',
-            // ])
         ;
     }
 

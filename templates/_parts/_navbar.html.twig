@@ -57,8 +57,7 @@
                         {# TODO: Faire les badges de compte à valider + tableau de validation de compte#}
                         <a class="dropdown-item" href="{{ path("user_validation") }}">Les profils en attentent de validation <span class="badge badge-success">4</span></a>
                         <div class="dropdown-divider"></div>
-                        {# TODO: Faire les badges de compte à valider #}
-                        <a class="dropdown-item" href="{{ path("app_register") }}">Mon profil</a>
+                        <a class="dropdown-item" href="{{ path("user_show", {'id': app.user.id}) }}">Mon profil</a>
                     </div>
                 </li>
             {% endif %}
@@ -71,10 +70,14 @@
                     </li>    
                 {% else %}
                     <li class="nav-item">
+                        <a class="nav-link" href="{{ path("user_show", {'id': app.user.id}) }}">Mon profil</a>
+                    </li>
+                    <li class="nav-item">
                         {# TODO: Faire les badges de compte à valider #}
                         <a class="nav-link" href="{{ path("booking_index") }}">Mes cours</a>
                     </li>     
                 {% endif %}
+
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path("app_logout") }}">Déconnexion</a>
                 </li>

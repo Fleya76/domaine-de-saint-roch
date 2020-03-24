@@ -15,7 +15,7 @@
                     <th class="th-lg">Nom du chien</th>
                     <th class="th-lg">Race du chien</th>
                     <th class="th-lg">Fin de contrat</th>
-                    <th><a href="{{ path('user_new') }}">Create new</a></th>
+                    {# <th><a href="{{ path('user_new') }}">Create new</a></th> #}
                 </tr>
                 </thead>
                 <tbody>
@@ -24,9 +24,13 @@
                             <td>{{ user.id }}</td>
                             <td>{{ user.firstName }}</td>
                             <td>{{ user.lastName }}</td>
-                            <td>Nom du chien</td>
-                            <td>Race du chien</td>
-                            <td>Fin de contrat</td>
+                            {% for dog in user.dog %}
+                                <td>{{ dog }}</td>
+                            {% endfor %}
+
+                            {% for contract in user.contract %}
+                                <td><a href="{{ path('user_show', {'id': user.id}) }}">{{contract}}</a></td>
+                            {% endfor %}
                             {# <td>{{ user.email }}</td>
                             <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
                             <td>{{ user.password }}</td>
