@@ -16,7 +16,7 @@ class BookingController extends AbstractController
 {   
     /**
      * @Route("/booking", name="booking_index", methods={"GET"})
-     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_SUBSCRIBER')", message="Vous devez être identifier et valider pour voir les prochains cours")
      */
     public function index(BookingRepository $bookingRepository): Response
     {
