@@ -6,42 +6,7 @@
     <div class="container mt-5">
         <h1>Inscription au Domaine de Saint-Roch</h1>
 
- 
-        {{ form_start(registrationForm) }}
+        {{ include('/user/_form.html.twig') }}
 
-            <div class="row">
-                <div class="col-6">
-                    {{ form_row(registrationForm.firstName, {'attr': {'class': 'form-control'}}) }}
-
-                </div>
-                <div class="col-6">
-                    {{ form_row(registrationForm.lastName, {'attr': {'class': 'form-control'}}) }}
-                </div>
-            </div>
-            
-
-            {{ form_row(registrationForm.email, {'attr': {'class': 'form-control'}}) }}
-            {{ form_row(registrationForm.phone, {'attr': {'class': 'form-control'}}) }}
-
-            <div class="row">          
-                <div class="col-6">
-                    {{ form_row(registrationForm.dog.vars.prototype.name, {'attr': {'class': 'form-control'}}) }} 
-                </div>
-                <div class="col-6">
-                    {{ form_row(registrationForm.dog.vars.prototype.breed, {'attr': {'class': 'form-control'}}) }} 
-                </div>
-            </div>
-            {{ form_row(registrationForm.contract.vars.prototype.beginAt, {'attr': {'class': 'form-control'}}) }} 
-
-            {{ form_row(registrationForm.password.first, {'attr': {'class': 'form-control'}}) }}
-            {{ form_row(registrationForm.password.second, {'attr': {'class': 'form-control'}}) }}
-            {# {{ form_row(registrationForm.password, {'attr': {'class': 'form-control'}}) }} #}
-            {# {{ form_row(registrationForm.confirm_password, {'attr': {'class': 'form-control'}}) }} #}
-
-            {# {{ form_row(registrationForm.dog.vars.prototype, {'label' : ' '}) }} #}
-
-
-            <button class="btn btn-info mt-5">Inscription</button>
-        {{ form_end(registrationForm) }}
     </div>
 {% endblock %}

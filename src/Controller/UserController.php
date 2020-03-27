@@ -24,6 +24,7 @@ class UserController extends AbstractController
     {
         return $this->render('user/overview.html.twig', [
             'users' => $userRepository->findAll(),
+            
         ]);
     }
 
@@ -31,7 +32,7 @@ class UserController extends AbstractController
      * @Route("/validation", name="user_validation")
      * @Security("is_granted('ROLE_ADMIN')")
      */
-    public function validation(UserRepository $userRepository)
+    public function validationView(UserRepository $userRepository)
     {    
         // TODO: Si un utilisateur est validé il reçoit une notification par mail ou SMS
 
@@ -39,6 +40,38 @@ class UserController extends AbstractController
             'controller_name' => 'UserController',
             'users' => $userRepository->findBy(['validation' => '0'])
         ]);
+    }
+
+    /**
+     * @Route("/validation/{id}/{type}", name="user_validation_id")
+     * @Security("is_granted('ROLE_ADMIN')")
+     */
+    public function validation(User $user, $type="", UserRepository $userRepository)
+    {    
+        // TODO: Si un utilisateur est validé il reçoit une notification par mail ou SMS
+        $entityManager = $this->getDoctrine()->getManager();
+        
+        if($type == 'valider')
+        {
+            $user->setValidation(1);
+            $user->setRoles(["ROLE_USER", "ROLE_SUBSCRIBER"]);
+            // $entityManager->persist($dog);
+            $entityManager->persist($user);
+        }else{
+            foreach($user->getDog() as $dog){
+                $entityManager->remove($dog);
+            }
+            foreach($user->getContract() as $contract){
+                $entityManager->remove($contract);
+            }
+            dump($user);
+            $entityManager->remove($user);
+        }
+
+
+        $entityManager->flush();
+
+        return $this->redirectToRoute('user_validation');
     }
 
     /**
@@ -54,7 +87,7 @@ class UserController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="user_edit", methods={"GET","POST"})
-     * 
+     * @Security("is_granted('ROLE_USER') or is_granted('ROLE_ADMIN')", statusCode=499,message="Vou devez être connecté et être propriétaire du profil pour le modifier ou supprimer")
      */
     public function edit(Request $request, User $user): Response
     {

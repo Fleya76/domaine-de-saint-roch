@@ -5,11 +5,11 @@
 {% block body %}
 
     <div class="container">
-        <h1>Create new Booking</h1>
+        <h1>Créer un nouveau événement dans l'agenda</h1>
 
         {{ include('booking/_form.html.twig') }}
 
-        <a href="{{ path('booking_index') }}">back to list</a>
+        <a href="{{ path('booking_overview') }}">Retourner à la liste</a>
     </div>
 
 {% endblock %}

@@ -18,6 +18,12 @@ td a {
     display: none!important;
 }
 
+#user_dog{
+    display: none!important;
+}
+#user_contract{
+    display: none!important;
+}
 @media screen and (max-width: 767px) {
     .fc-toolbar{
         display: block!important;

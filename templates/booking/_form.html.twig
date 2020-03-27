@@ -1,4 +1,15 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+        {{ form_row(form.title, {'attr': {'class': 'form-control'}}) }}
+        {{ form_row(form.category, {'attr': {'class': 'form-control'}}) }} 
+  
+    <div class="row">
+        <div class="col-6">
+            {{ form_row(form.beginAt, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="col-6">
+            {{ form_row(form.endAt, {'attr': {'class': 'form-control'}}) }}
+        </div>
+    </div>
+    {{ form_row(form.place, {'attr': {'class': 'form-control'}}) }} 
+    <button class="mt-3 mb-3 btn btn-success">Enregistrer l'événement</button>
 {{ form_end(form) }}

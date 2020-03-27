@@ -85,6 +85,9 @@ class AppFixtures extends Fixture
                 ->setLastName($faker->lastName())
                 ->setFirstName($faker->firstNameMale())
                 ->setPhone($faker->phoneNumber())
+                ->setAddress($faker->streetAddress())
+                ->setPostalCode(14100)
+                ->setCity($faker->city())
                 ->setPassword($this->encoder->encodePassword($user,'admin76'));
                 if($u < 25) {
                     $user->setRoles(['ROLE_USER','ROLE_SUBSCRIBER'])

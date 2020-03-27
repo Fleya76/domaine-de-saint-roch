@@ -17,11 +17,11 @@
                     <td>{{ booking.title }}</td>
                 </tr>
                 <tr>
-                    <th>BeginAt</th>
+                    <th>Début à</th>
                     <td>{{ booking.beginAt ? booking.beginAt|date('Y-m-d H:i:s') : '' }}</td>
                 </tr>
                 <tr>
-                    <th>EndAt</th>
+                    <th>Fin à</th>
                     <td>{{ booking.endAt ? booking.endAt|date('Y-m-d H:i:s') : '' }}</td>
                 </tr>
                 <tr>
@@ -35,9 +35,9 @@
             </tbody>
         </table>
 
-        <a href="{{ path('booking_index') }}">back to list</a>
+        <a href="{{ path('booking_index') }}">Voir le planning</a>
 
-        <a href="{{ path('booking_edit', {'id': booking.id}) }}">edit</a>
+        <a href="{{ path('booking_edit', {'id': booking.id}) }}">Modifier</a>
 
         {{ include('booking/_delete_form.html.twig') }}
     

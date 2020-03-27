@@ -16,7 +16,7 @@ class ContractType extends AbstractType
             ->add('beginAt', DateType::class, [
                 'label' => 'La date de début de votre contrat',
                 'widget' => 'single_text',
-                'input'  => 'datetime_immutable'
+                // 'input'  => 'datetime_immutable'
                 // 'attr' => ['class' => 'form-control'],
             ])            
         ;

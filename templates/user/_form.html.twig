@@ -1,4 +1,55 @@
-{{ form_start(form) }}
+{# {{ form_start(form) }}
     {{ form_widget(form) }}
     <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }} #}
+
+{{ form_start(form) }}
+    <div class="row">
+        <div class="col-6">
+            {{ form_row(form.firstName, {'attr': {'class': 'form-control'}}) }}
+
+        </div>
+        <div class="col-6">
+            {{ form_row(form.lastName, {'attr': {'class': 'form-control'}}) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            {{ form_row(form.email, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="col-6">
+            {{ form_row(form.phone, {'attr': {'class': 'form-control'}}) }}
+        </div>
+    </div>
+    {{ form_row(form.address, {'attr': {'class': 'form-control'}}) }}
+    <div class="row">
+        <div class="col-6">
+            {{ form_row(form.postalCode, {'attr': {'class': 'form-control'}}) }}
+
+        </div>
+        <div class="col-6">
+            {{ form_row(form.city, {'attr': {'class': 'form-control'}}) }}
+        </div>
+    </div>
+    <div class="row">          
+        <div class="col-6">
+            {{ form_row(form.dog.vars.prototype.name, {'attr': {'class': 'form-control'}}) }} 
+        </div>
+        <div class="col-6">
+            {{ form_row(form.dog.vars.prototype.breed, {'attr': {'class': 'form-control'}}) }} 
+        </div>
+    </div>
+    {{ form_row(form.contract.vars.prototype.beginAt, {'attr': {'class': 'form-control'}}) }} 
+
+    {{ form_row(form.password.first, {'attr': {'class': 'form-control'}}) }}
+    {{ form_row(form.password.second, {'attr': {'class': 'form-control'}}) }}
+
+
+    <button class="btn btn-info mt-5">
+    {% if not app.user %}
+        Inscription
+    {% else %}
+        Validation
+    {% endif %}
+    </button>
 {{ form_end(form) }}
