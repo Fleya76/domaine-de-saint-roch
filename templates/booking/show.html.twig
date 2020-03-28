@@ -1,15 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Booking{% endblock %}
+{% block title %}Evénement - {{ booking.place }}{% endblock %}
 
 {% block body %}
-    <div class="container">
-        <h1>Booking</h1>
+    <div class="container mt-3">
+        <h1>Evénement - {{ booking.place }}</h1>
 
         <table class="table">
             <tbody>
                 <tr>
-                    <th>Id</th>
+                    <th>Identifiant</th>
                     <td>{{ booking.id }}</td>
                 </tr>
                 <tr>
@@ -18,11 +18,11 @@
                 </tr>
                 <tr>
                     <th>Début à</th>
-                    <td>{{ booking.beginAt ? booking.beginAt|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ booking.beginAt ? booking.beginAt|date('H:i - d-m-Y') : '' }}</td>
                 </tr>
                 <tr>
                     <th>Fin à</th>
-                    <td>{{ booking.endAt ? booking.endAt|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ booking.endAt ? booking.endAt|date('H:i - d-m-Y') : '' }}</td>
                 </tr>
                 <tr>
                     <th>Catégorie</th>
@@ -34,13 +34,22 @@
                 </tr>
             </tbody>
         </table>
-
-        <a href="{{ path('booking_index') }}">Voir le planning</a>
-
-        <a href="{{ path('booking_edit', {'id': booking.id}) }}">Modifier</a>
-
-        {{ include('booking/_delete_form.html.twig') }}
-    
-    </div>
+        {% if is_granted('ROLE_ADMIN') %}
+            {{ include('user/_table_users.html.twig', {'action' :'view', 'users' : booking.users}) }}
+        
+        {% endif %}
+        
+        <div class="actionButton">
+        {% if is_granted('ROLE_ADMIN') %}
+            <a href="{{ path('booking_edit', {'id': booking.id}) }}">
+                <button type="button" class="btn btn-info mr-1">Modifier</button>
+            </a>
+            {{ include('booking/_delete_form.html.twig') }}
+        {% endif %}
+            <a href="{{ path('booking_reservation', {'id': booking.id, 'user': app.user.id}) }}">
+                <button type="button" class="btn btn-success mr-1">Je souhaite participer</button>
+            </a>
+            <a href="{{ path('booking_index') }}">Voir le planning</a>
+        </div>
 
 {% endblock %}

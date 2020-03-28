@@ -74,7 +74,7 @@
                     </li>
                     <li class="nav-item">
                         {# TODO: Faire les badges de compte à valider #}
-                        <a class="nav-link" href="{{ path("booking_index") }}">Mes cours</a>
+                        <a class="nav-link" href="{{ path("booking_by_user", {'user': app.user.id}) }}">Mes cours</a>
                     </li>     
                 {% endif %}
 

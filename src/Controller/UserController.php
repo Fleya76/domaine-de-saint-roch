@@ -23,7 +23,7 @@ class UserController extends AbstractController
     public function index(UserRepository $userRepository): Response
     {
         return $this->render('user/overview.html.twig', [
-            'users' => $userRepository->findAll(),
+            'users' => $userRepository->findBy(['validation' => '1']),
             
         ]);
     }
@@ -43,10 +43,10 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/validation/{id}/{type}", name="user_validation_id")
+     * @Route("/validation/{id}/{'type'}", name="user_validation_id")
      * @Security("is_granted('ROLE_ADMIN')")
      */
-    public function validation(User $user, $type="", UserRepository $userRepository)
+    public function validationAction(User $user, $type="", UserRepository $userRepository)
     {    
         // TODO: Si un utilisateur est validé il reçoit une notification par mail ou SMS
         $entityManager = $this->getDoctrine()->getManager();
@@ -79,7 +79,6 @@ class UserController extends AbstractController
      */
     public function show(User $user): Response
     {
-        
         return $this->render('user/show.html.twig', [
             'user' => $user,
         ]);

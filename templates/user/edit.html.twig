@@ -5,7 +5,7 @@
 {% block body %}
     <div class="container mt-5">
         <h1>Modifier le profil</h1>
-        {% if app.user == user %}
+        {% if app.user == user or  is_granted('ROLE_ADMIN') %}
         {{ include('user/_form.html.twig', {'button_label': 'Update'}) }}
         {% else %}
             <p>Vous devez être propriétaire du profil pour le modifier</p>

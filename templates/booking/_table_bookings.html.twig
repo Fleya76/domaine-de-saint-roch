@@ -1,0 +1,43 @@
+<div class="table-responsive mt-3">
+    <table id="" class="table">
+        <thead>
+        <tr>
+            <th class="th-lg">ID</th>
+            <th class="th-lg">Évenement</th>
+            <th class="th-lg">Type</th>
+            <th class="th-lg">Date</th>
+            <th class="th-lg">Emplacement</th>
+            {% if is_granted('ROLE_ADMIN') %}
+                <th><a href="{{ path('booking_new') }}"><button class="btn btn-success">+</button></a></th>
+            {% else %}
+                <th></th>
+            {% endif %}
+        </tr>
+        </thead>
+        {% for booking in bookings %}
+            <tr>
+                <th scope="row">{{ booking.id }}</th>
+                <td>{{ booking.title }}</td>
+                <td>{{ booking.category }}</td>
+                <td>{{ booking.beginAt|date('H:i:s Y-m-d' )}}</td>
+                <td>{{ booking.place }}</td>
+
+                {% if action == 'update' %}
+                    <td>
+                        <a href="{{ path('booking_edit', {'id': booking.id}) }}"><span class="blue">Modifier</span></a><br>
+                        <a href="{{ path('booking_delete', {'id': booking.id}) }}"><span class="red">Supprimer</span></a><br>
+                    </td>
+                {% else %}
+                    <td>
+                        <a href="{{ path('booking_remove_user', {'id': booking.id, 'user':  app.user.id}) }}"><span class="blue">Annuler</span></a><br>
+                    </td>
+                {% endif %}
+
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">Aucun événement</td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>

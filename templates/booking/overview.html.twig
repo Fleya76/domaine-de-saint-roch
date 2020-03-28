@@ -3,43 +3,9 @@
 {% block title %}Administration des évènements{% endblock %}
 
 {% block body %}
-    <div class="container mt-5">
+    <div class="container mt-3">
         <h1>Administration des évènements 🐾</h1>
-            <div class="table-responsive">
-                <table id="" class="table">
-                    <thead>
-                    <tr>
-                        <th class="th-lg">ID</th>
-                        <th class="th-lg">Évenement</th>
-                        <th class="th-lg">Type</th>
-                        <th class="th-lg">Emplacement</th>
-
-                        <th><a href="{{ path('booking_new') }}"><button class="btn btn-success">+</button></a></th>
-                    </tr>
-                    </thead>
-                    {% for booking in bookings %}
-                        <tr>
-                            <th scope="row">{{ booking.id }}</th>
-                            <td>{{ booking.title }}</td>
-                            <td>{{ booking.category }}</td>
-                            <td>{{ booking.place }}</td>
-
-                            <td>
-                            <a href="{{ path('booking_edit', {'id': booking.id}) }}"><span class="blue">Modifier</span></a><br>
-                            <a href="{{ path('booking_delete', {'id': booking.id}) }}"><span class="red">Supprimer</span></a><br>
-
-                                {# {{ include('booking/_delete_form.html.twig') }} #}
-                                {# <form action="#" method="POST" name="formEdit">
-                                    <input type="hidden" name="program_id" value="{{program.id}}">
-                                    <a href="{{ path('program_edit', {'id' : program.id }) }}" class="btn btn-primary" name="editProgram">Edit</a>
-                                    <button type="submit" class="btn btn-danger" name="deleteProgram">Delete</button>
-                                </form>        #}
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </table>
-            </div>
+        {{ include('booking/_table_bookings.html.twig', {'action' : 'update'}) }}
     </div>
-
 {% endblock %}
 

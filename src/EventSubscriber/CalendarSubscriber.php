@@ -135,15 +135,12 @@ class CalendarSubscriber implements EventSubscriberInterface
                     'borderColor' => 'black',
                 ]);
             }
-
-
             $bookingEvent->addOption(
                 'url',
                 $this->router->generate('booking_show', [
                     'id' => $booking->getId(),
                 ])
             );
-
             // finally, add the event to the CalendarEvent to fill the calendar
             $calendar->addEvent($bookingEvent);
         }

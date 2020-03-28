@@ -1,0 +1,50 @@
+<div class="table-responsive mt-5">
+    <table class="table">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th class="th-lg">Prénom</th>
+            <th class="th-lg">Nom de famille</th>
+            <th class="th-lg">Nom et race du chien</th>
+            <th class="th-lg">Début et fin de contrat</th>
+            <th class="th-lg"></th>
+            {# <th><a href="{{ path('user_new') }}">Create new</a></th> #}
+        </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td><a href="{{ path('user_show', {'id': user.id}) }}">{{ user.id }}</a></td>
+                    <td><a href="{{ path('user_show', {'id': user.id}) }}">{{ user.firstName }}</a></td>
+                    <td><a href="{{ path('user_show', {'id': user.id}) }}">{{ user.lastName }}</a></td>
+                    {% for dog in user.dog %}
+                        <td><a href="{{ path('user_show', {'id': user.id}) }}">{{ dog }}</a></td>
+                    {% endfor %}
+
+                    {% for contract in user.contract %}
+                        <td><a href="{{ path('user_show', {'id': user.id}) }}">{{contract}}</a></td>
+                    {% endfor %}
+                    {# <td>{{ user.email }}</td>
+                    <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+                    <td>{{ user.password }}</td>
+                    <td>{{ user.validation ? 'Yes' : 'No' }}</td> #}
+                    {% if action == 'validation' %}
+                        <td>
+                            <a href="{{ path('user_validation_id', {'id': user.id, 'type' : 'valider'}) }}"><span class="blue">Valider</span></a><br>
+                            <a href="{{ path('user_validation_id', {'id': user.id, 'type' : 'refuser'}) }}"><span class="red">Refuser</span></a><br>
+                        </td>
+                    {% else %}
+                        <td>
+                            <a href="{{ path('user_show', {'id': user.id}) }}"><span class="red">Regarder</span></a><br>
+                            <a href="{{ path('user_edit', {'id': user.id}) }}"><span class="blue">Modifier</span></a><br>
+                        </td>
+                    {% endif %}
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="8">Aucun utilisateur inscrit</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

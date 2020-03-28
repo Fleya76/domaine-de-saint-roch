@@ -1,7 +1,6 @@
 .bg-primary{
     background-color: #282726!important
 }
-
 .blue{
     color: #7B93D1;
 }
@@ -17,12 +16,14 @@ td a {
 #registration_dog{
     display: none!important;
 }
-
 #user_dog{
     display: none!important;
 }
 #user_contract{
     display: none!important;
+}
+.actionButton{
+    display: flex;
 }
 @media screen and (max-width: 767px) {
     .fc-toolbar{
@@ -38,4 +39,4 @@ td a {
         padding: 0em!important;
         vertical-align: inherit!important;
     }
-  }
+}

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Entity\Booking;
 use App\Form\BookingType;
 use App\Repository\BookingRepository;
@@ -20,7 +21,7 @@ class BookingController extends AbstractController
      */
     public function index(BookingRepository $bookingRepository): Response
     {
-      
+       
         return $this->render('booking/calendar.html.twig', [
             'bookings' => $bookingRepository->findAll(),
         ]);
@@ -66,6 +67,7 @@ class BookingController extends AbstractController
      */
     public function show(Booking $booking): Response
     {
+        dump($booking);
         return $this->render('booking/show.html.twig', [
             'booking' => $booking,
         ]);
@@ -105,6 +107,48 @@ class BookingController extends AbstractController
         }
 
         return $this->redirectToRoute('booking_index');
+    }
+
+    /**
+     * @Route("/booking/{id}/{user}", name="booking_reservation")
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
+     */
+    public function reservation(Booking $booking, User $user)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $booking->addUser($user);
+        $entityManager->persist($booking);
+        $entityManager->flush();
+        return $this->redirectToRoute('booking_index');
+    }
+
+    // TODO: Sécuriser les routes pour que personnes d'autre mise à part l'admin et la personne identifié et auteur de l'action puisse intervenir
+
+    /**
+     * @Route("/{user}/booking/reservation", name="booking_by_user", methods={"GET"})
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_SUBSCRIBER')", message="Vous devez être identifier et valider par l'administration pour voir les prochains cours")
+     */
+    public function bookingFindByUser(User $user): Response
+    {
+        // TODO: Afficher uniquement les bookings à venir
+        return $this->render('booking/reservation.html.twig', [
+            'bookings' => $user->getBookings(),
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/booking/{user}/remove", name="booking_remove_user", methods={"GET"})
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_SUBSCRIBER')", message="Vous devez être identifier et valider par l'administration pour voir les prochains cours")
+     */
+    public function bookingRemoveByUser(User $user, Booking $booking): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $booking->removeUser($user);
+        $entityManager->persist($booking);
+        $entityManager->flush();
+        return $this->redirectToRoute('booking_by_user', array(
+            'user' => $user->getId()
+        ));
     }
 
 }

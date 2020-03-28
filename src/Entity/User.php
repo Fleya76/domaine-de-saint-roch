@@ -91,10 +91,16 @@ class User implements UserInterface
      */
     private $city;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Booking", mappedBy="users")
+     */
+    private $bookings;
+
     public function __construct()
     {
         $this->dog = new ArrayCollection();
         $this->contract = new ArrayCollection();
+        $this->bookings = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -319,6 +325,34 @@ class User implements UserInterface
     public function setCity(string $city): self
     {
         $this->city = $city;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Booking[]
+     */
+    public function getBookings(): Collection
+    {
+        return $this->bookings;
+    }
+
+    public function addBooking(Booking $booking): self
+    {
+        if (!$this->bookings->contains($booking)) {
+            $this->bookings[] = $booking;
+            $booking->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBooking(Booking $booking): self
+    {
+        if ($this->bookings->contains($booking)) {
+            $this->bookings->removeElement($booking);
+            $booking->removeUser($this);
+        }
 
         return $this;
     }
