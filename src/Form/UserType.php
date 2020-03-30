@@ -28,24 +28,6 @@ class UserType extends AbstractType
             ->add('email', EmailType::class, [
                 'label' => 'Votre adresse email'
             ])
-            // ->add('password', PasswordType::class, [
-            //     // instead of being set onto the object directly,
-            //     // this is read and encoded in the controller
-            //     'label' => 'Votre mot de passe',
-            //     'mapped' => false,
-            //     'constraints' => [
-            //         new NotBlank([
-            //             'message' => 'Please enter a password',
-            //         ]),
-            //         new Length([
-            //             'min' => 6,
-            //             'minMessage' => 'Ton mot de passe doit faire au minimum {{ limit }} lettres',
-            //             // max length allowed by Symfony for security reasons
-            //             'max' => 4096,
-            //         ]),
-            //     ],
-            // ])
-
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'invalid_message' => 'Les mots de passe ne sont pas identiques.',
@@ -86,7 +68,6 @@ class UserType extends AbstractType
                 'delete_empty' => true,
             ])
             ->add('contract', CollectionType::class, [
-        
                 'label' => false,
                 'entry_type' => ContractType::class,
                 // 'entry_options' => ['label' => false],

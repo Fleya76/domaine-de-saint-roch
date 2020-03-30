@@ -43,32 +43,18 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/validation/{id}/{'type'}", name="user_validation_id")
+     * @Route("/validation/{id}", name="user_validation_id")
      * @Security("is_granted('ROLE_ADMIN')")
      */
-    public function validationAction(User $user, $type="", UserRepository $userRepository)
+    public function validationAction(User $user, UserRepository $userRepository)
     {    
         // TODO: Si un utilisateur est validé il reçoit une notification par mail ou SMS
         $entityManager = $this->getDoctrine()->getManager();
         
-        if($type == 'valider')
-        {
-            $user->setValidation(1);
-            $user->setRoles(["ROLE_USER", "ROLE_SUBSCRIBER"]);
-            // $entityManager->persist($dog);
-            $entityManager->persist($user);
-        }else{
-            foreach($user->getDog() as $dog){
-                $entityManager->remove($dog);
-            }
-            foreach($user->getContract() as $contract){
-                $entityManager->remove($contract);
-            }
-            dump($user);
-            $entityManager->remove($user);
-        }
-
-
+        $user->setValidation(1);
+        $user->setRoles(["ROLE_USER", "ROLE_SUBSCRIBER"]);
+        // $entityManager->persist($dog);
+        $entityManager->persist($user);
         $entityManager->flush();
 
         return $this->redirectToRoute('user_validation');
@@ -106,17 +92,21 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="user_delete", methods={"DELETE"})
+     * @Route("/delete/{id}/{redirection}", name="user_delete")
      * @Security("is_granted('ROLE_ADMIN')")
      */
-    public function delete(Request $request, User $user): Response
+    public function delete(Request $request, User $user, $redirection = ''): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
+            foreach($user->getDog() as $dog){
+                $entityManager->remove($dog);
+            }
+            foreach($user->getContract() as $contract){
+                $entityManager->remove($contract);
+            }
             $entityManager->remove($user);
             $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('user_index');
+        
+        return $this->redirectToRoute($redirection);
     }
 }

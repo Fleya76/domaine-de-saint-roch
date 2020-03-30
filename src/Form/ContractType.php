@@ -2,11 +2,13 @@
 
 namespace App\Form;
 
+use App\Entity\User;
 use App\Entity\Contract;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class ContractType extends AbstractType
 {
@@ -16,9 +18,16 @@ class ContractType extends AbstractType
             ->add('beginAt', DateType::class, [
                 'label' => 'La date de début de votre contrat',
                 'widget' => 'single_text',
-                // 'input'  => 'datetime_immutable'
-                // 'attr' => ['class' => 'form-control'],
-            ])            
+            ])        
+            // ->add('endAt', DateType::class, [
+            //     'label' => 'La date de début de votre contrat',
+            //     'widget' => 'single_text',
+            // ])   
+            // ->add('user',EntityType::class,[
+            //     'class'=>User::class,
+            //     'choice_label' => 'title',
+            //     'placeholder' => 'Choix de l\'utilisateur',
+            // ])
         ;
     }
 

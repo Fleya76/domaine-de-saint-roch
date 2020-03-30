@@ -17,21 +17,26 @@
                     <td><a href="{{ path('user_show', {'id': user.id}) }}">{{ user.id }}</a></td>
                     <td><a href="{{ path('user_show', {'id': user.id}) }}">{{ user.firstName }}</a></td>
                     <td><a href="{{ path('user_show', {'id': user.id}) }}">{{ user.lastName }}</a></td>
+      
                     {% for dog in user.dog %}
                         <td><a href="{{ path('user_show', {'id': user.id}) }}">{{ dog }}</a></td>
-                    {% endfor %}
+                    {% endfor %}                   
+     
+                    
 
                     {% for contract in user.contract %}
                         <td><a href="{{ path('user_show', {'id': user.id}) }}">{{contract}}</a></td>
-                    {% endfor %}
+                    {% endfor %} 
+                    {# <td><a href="{{ path('user_show', {'id': user.id}) }}">{{user.contract[0]}}</a></td> #}
+
                     {# <td>{{ user.email }}</td>
                     <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
                     <td>{{ user.password }}</td>
                     <td>{{ user.validation ? 'Yes' : 'No' }}</td> #}
                     {% if action == 'validation' %}
                         <td>
-                            <a href="{{ path('user_validation_id', {'id': user.id, 'type' : 'valider'}) }}"><span class="blue">Valider</span></a><br>
-                            <a href="{{ path('user_validation_id', {'id': user.id, 'type' : 'refuser'}) }}"><span class="red">Refuser</span></a><br>
+                            <a href="{{ path('user_validation_id', {'id': user.id}) }}"><span class="blue">Valider</span></a><br>
+                            <a href="{{ path('user_delete', {'id': user.id, 'redirection' : 'user_validation'}) }}"><span class="red">Refuser</span></a><br>
                         </td>
                     {% else %}
                         <td>

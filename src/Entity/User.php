@@ -102,6 +102,10 @@ class User implements UserInterface
         $this->contract = new ArrayCollection();
         $this->bookings = new ArrayCollection();
     }
+    public function __toString()
+    {
+        return $this->firstName . ' ' . $this->lastName;
+    }
 
     public function getId(): ?int
     {
@@ -273,8 +277,8 @@ class User implements UserInterface
         if (!$this->contract->contains($contract)) {
             $this->contract[] = $contract;
             $contract->setUser($this);
-            dump($contract->getBeginAt());
-            $contract->setEndAt($contract->getBeginAt()->add(new DateInterval('P1Y')));
+            $begintAt = clone $contract->getBeginAt();
+            $contract->setEndAt($begintAt->add(new DateInterval('P1Y')));
         }
 
         return $this;
