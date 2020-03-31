@@ -25,7 +25,9 @@
                     
 
                     {% for contract in user.contract %}
-                        <td><a href="{{ path('user_show', {'id': user.id}) }}">{{contract}}</a></td>
+                        {% if contract.endAt > dateTime %}
+                            <td><a href="{{ path('user_show', {'id': user.id}) }}">{{contract}}</a></td>
+                        {% endif %}
                     {% endfor %} 
                     {# <td><a href="{{ path('user_show', {'id': user.id}) }}">{{user.contract[0]}}</a></td> #}
 

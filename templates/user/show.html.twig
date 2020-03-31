@@ -52,10 +52,17 @@
                 {% endfor %}
 
                 {% for contract in user.contract %}
-                <tr>
-                    <th>Contrat</th>
-                    <td><a href="{{ path('contract_show', {'id' : contract.id}) }}">{{contract}}</a></td>
-                </tr>
+                    {% if contract.endAt < dateTime %}
+                        <tr>
+                            <th>Ancien contrat</th>
+                            <td><a href="{{ path('contract_show', {'id' : contract.id}) }}">{{contract}}</a></td>
+                        </tr>        
+                    {% else %}
+                        <tr>
+                            <th>Contrat en cours</th>
+                            <td><a href="{{ path('contract_show', {'id' : contract.id}) }}">{{contract}}</a></td>
+                        </tr>  
+                    {% endif %}
                 {% endfor %}
             </tbody>
         </table>
@@ -72,7 +79,7 @@
                     <button type="button" class="btn btn-warning mr-1">Créer un nouveau contract</button>
                 </a>
                 
-                {{ include('user/_delete_form.html.twig') }}
+                {{ include('user/_delete_form.html.twig', {'redirection' : 'user_index'}) }}
             {% endif %}
         </div>
     </div>

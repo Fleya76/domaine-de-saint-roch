@@ -38,7 +38,7 @@ class Contract
 
     public function __toString()
     {
-        return $this->getBeginAt()->format('Y-m-d') . ' - ' . $this->getEndAt()->format('Y-m-d') ;
+        return 'Du ' . $this->getBeginAt()->format('d-m-Y') . ' au ' . $this->getEndAt()->format('d-m-Y') ;
     }
     
     public function getBeginAt(): ?\DateTimeInterface

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
+use DateTime;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -24,7 +25,7 @@ class UserController extends AbstractController
     {
         return $this->render('user/overview.html.twig', [
             'users' => $userRepository->findBy(['validation' => '1']),
-            
+            'dateTime' => new DateTime()
         ]);
     }
 
@@ -37,7 +38,7 @@ class UserController extends AbstractController
         // TODO: Si un utilisateur est validé il reçoit une notification par mail ou SMS
 
         return $this->render('user/validation.html.twig', [
-            'controller_name' => 'UserController',
+            'dateTime' => new DateTime(),
             'users' => $userRepository->findBy(['validation' => '0'])
         ]);
     }
@@ -67,6 +68,7 @@ class UserController extends AbstractController
     {
         return $this->render('user/show.html.twig', [
             'user' => $user,
+            'dateTime' => new DateTime()
         ]);
     }
 

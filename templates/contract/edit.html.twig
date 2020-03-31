@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Contract{% endblock %}
+{% block title %}Modifier le contrat numéro {{contract.id}}{% endblock %}
 
 {% block body %}
-    <h1>Edit Contract</h1>
-
-    {{ include('contract/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('contract_index') }}">back to list</a>
-
-    {{ include('contract/_delete_form.html.twig') }}
+    <div class="container mt-3">
+        <h1>Modifier le contrat numéro {{contract.id}}</h1>
+        {{ include('contract/_form.html.twig', {'button_label': 'Modifier'}) }}
+        <a href="{{ path('user_index') }}">Retourner à la gestion des clients</a>
+        {{ include('contract/_delete_form.html.twig') }}  
+    </div>
+   
 {% endblock %}

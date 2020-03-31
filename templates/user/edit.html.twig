@@ -14,7 +14,7 @@
 
         {% if is_granted('ROLE_ADMIN') %}
             <a href="{{ path('user_index') }}">Retourner à la liste</a>
-            {{ include('user/_delete_form.html.twig') }}
+            {{ include('user/_delete_form.html.twig', {'redirection' : 'user_index'}) }}
         {% endif %}
     </div>
 
