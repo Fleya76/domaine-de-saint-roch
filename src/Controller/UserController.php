@@ -74,11 +74,11 @@ class UserController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="user_edit", methods={"GET","POST"})
-     * @Security("is_granted('ROLE_USER') or is_granted('ROLE_ADMIN')", statusCode=499,message="Vou devez être connecté et être propriétaire du profil pour le modifier ou supprimer")
+     * @Security("user===userConnect and is_granted('ROLE_SUBSCRIBER') or is_granted('ROLE_ADMIN')", statusCode=499,message="Vou devez être connecté et être propriétaire du profil pour le modifier ou supprimer")
      */
-    public function edit(Request $request, User $user): Response
+    public function edit(Request $request, User $userConnect): Response
     {
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createForm(UserType::class, $userConnect);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -88,7 +88,7 @@ class UserController extends AbstractController
         }
 
         return $this->render('user/edit.html.twig', [
-            'user' => $user,
+            'user' => $userConnect,
             'form' => $form->createView(),
         ]);
     }

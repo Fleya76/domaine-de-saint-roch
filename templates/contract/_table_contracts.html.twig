@@ -1,0 +1,31 @@
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Client</th>
+                <th>Début le</th>
+                <th>Fin le</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for contract in contracts %}
+            <tr>
+                <td><a href="{{ path('contract_show', {'id': contract.id})}}">{{ contract.id }}</a></td>
+                <td> <a href="{{ path('user_show', {'id': contract.user.id})}}">{{ contract.user }}</a></td>
+                <td><a href="{{ path('contract_show', {'id': contract.id})}}">{{ contract.beginAt ? contract.beginAt|date('d-m-Y ')}}</a></td>
+                <td><a href="{{ path('contract_show', {'id': contract.id})}}">{{ contract.endAt ? contract.endAt|date('d-m-Y')}}</a></td>
+                <td>
+                    <a href="{{ path('contract_show', {'id': contract.id}) }}"><span class="red">Regarder</span></a>
+                    <a href="{{ path('contract_new', {'id': contract.user.id}) }}"><span class="blue">Nouveau contrat</span></a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">Pas de client en fin de contrat</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>

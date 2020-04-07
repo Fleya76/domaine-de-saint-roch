@@ -79,45 +79,13 @@ class AppFixtures extends Fixture
         $place3->setTitle('Extérieure');
         $manager->persist($place3);
 
-        for ($u=0; $u < 50; $u++) { 
-            $user = new User();
-            $user->setEmail($faker->email())
-                ->setLastName($faker->lastName())
-                ->setFirstName($faker->firstNameMale())
-                ->setPhone($faker->phoneNumber())
-                ->setAddress($faker->streetAddress())
-                ->setPostalCode(14100)
-                ->setCity($faker->city())
-                ->setPassword($this->encoder->encodePassword($user,'admin76'));
-                if($u < 25) {
-                    $user->setRoles(['ROLE_USER','ROLE_SUBSCRIBER'])
-                        ->setValidation(true);
-                }else{
-                    $user->setRoles(['ROLE_USER','ROLE_NOT_SUBSCRIBER'])
-                        ->setValidation(false);
-                }
-            $manager->persist($user);
-
-            $dog = new Dog();
-            $dog->setName($faker->lastName())
-                ->setBreed('Malinois')
-                ->setUser($user);
-            $manager->persist($dog);
-            
-            $contract = new Contract();
-            $contract->setBeginAt($faker->dateTimeBetween('-3 months'))
-                ->setUser($user);
-            $contract->setEndAt($faker->dateTimeInInterval($contract->getBeginAt(), $interval = '+ 1 year'));
-            $manager->persist($contract);
-        }
         for ($e=0; $e < 70; $e++) { 
-            # code...
             $booking = new Booking();
             $booking->setTitle($faker->sentence($nbWords = 6, $variableNbWords = true))
                 ->setBeginAt($faker->dateTimeBetween('-3 months'));
 
             $booking->setEndAt($faker->dateTimeInInterval($booking->getBeginAt(), $interval = '+ 2 hours'));
-            
+
             if($e>=60){
                 $booking->setCategory($category1);
                 $booking->setPlace($place1);
@@ -140,10 +108,48 @@ class AppFixtures extends Fixture
                 $booking->setCategory($category7);
                 $booking->setPlace($place3);
             }
-
+            
             $manager->persist($booking);
+
+            for ($u=0; $u < 10; $u++) { 
+                $user = new User();
+
+                $user->setEmail($faker->email())
+                    ->setLastName($faker->lastName())
+                    ->setFirstName($faker->firstNameMale())
+                    ->setPhone($faker->phoneNumber())
+                    ->setAddress($faker->streetAddress())
+                    ->setPostalCode(14100)
+                    ->setCity($faker->city())
+                    ->setPassword($this->encoder->encodePassword($user,'admin76'))
+                    ->addBooking($booking);
+
+                    if($u < 5) {
+                        $user->setRoles(['ROLE_USER','ROLE_SUBSCRIBER'])
+                            ->setValidation(true);
+                    }else{
+                        $user->setRoles(['ROLE_USER','ROLE_NOT_SUBSCRIBER'])
+                            ->setValidation(false);
+                    }
+
+                $manager->persist($user);
+    
+                $dog = new Dog();
+                $dog->setName($faker->lastName())
+                    ->setBreed('Malinois')
+                    ->setUser($user);
+                $manager->persist($dog);
+                
+                $contract = new Contract();
+                $contract->setBeginAt($faker->dateTimeBetween('-3 months'))
+                    ->setUser($user);
+                $contract->setEndAt($faker->dateTimeInInterval($contract->getBeginAt(), $interval = '+ 1 year'));
+                $manager->persist($contract);
+    
+            }
         }
 
+       
         $manager->flush();
     }
 }

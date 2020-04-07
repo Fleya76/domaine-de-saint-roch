@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Les contrats du Domaine de Saint-Roch{% endblock %}
+
+{% block body %}
+    <div class="container mt-3">
+        <h1>Les contrats du Domaine de Saint-Roch en fin de contrat</h1>
+        {% include "contract/_table_contracts.html.twig" %}
+    </div>
+    
+{% endblock %}

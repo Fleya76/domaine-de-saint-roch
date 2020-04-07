@@ -29,7 +29,7 @@
                     </td>
                 {% else %}
                     <td>
-                        <a href="{{ path('booking_remove_user', {'id': booking.id, 'user':  app.user.id}) }}"><span class="blue">Annuler</span></a><br>
+                        <a href="{{ path('booking_remove_user', {'id': booking.id, 'userConnect':  app.user.id}) }}"><span class="blue">Annuler</span></a><br>
                     </td>
                 {% endif %}
 

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use DateTime;
 use App\Entity\User;
 use App\Entity\Booking;
 use App\Form\BookingType;
@@ -69,6 +70,7 @@ class BookingController extends AbstractController
         dump($booking);
         return $this->render('booking/show.html.twig', [
             'booking' => $booking,
+            'dateTime' => new DateTime()
         ]);
     }
 
@@ -124,29 +126,29 @@ class BookingController extends AbstractController
     // TODO: Sécuriser les routes pour que personnes d'autre mise à part l'admin et la personne identifié et auteur de l'action puisse intervenir
 
     /**
-     * @Route("/{user}/booking/reservation", name="booking_by_user", methods={"GET"})
-     * @Security("is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_SUBSCRIBER')", message="Vous devez être identifier et valider par l'administration pour voir les prochains cours")
+     * @Route("/{id}/booking/reservation", name="booking_by_user", methods={"GET"})
+     * @Security("user===userConnect and is_granted('ROLE_SUBSCRIBER') or is_granted('ROLE_ADMIN')", message="Vous devez être identifier et valider par l'administration pour voir les prochains cours")
      */
-    public function bookingFindByUser(User $user): Response
+    public function bookingFindByUser(User $userConnect): Response
     {
         // TODO: Afficher uniquement les bookings à venir
         return $this->render('booking/reservation.html.twig', [
-            'bookings' => $user->getBookings(),
+            'bookings' => $userConnect->getBookings(),
         ]);
     }
 
     /**
-     * @Route("/{id}/booking/{user}/remove", name="booking_remove_user", methods={"GET"})
-     * @Security("is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_SUBSCRIBER')", message="Vous devez être identifier et valider par l'administration pour voir les prochains cours")
+     * @Route("/{id}/booking/{userConnect}/remove", name="booking_remove_user", methods={"GET"})
+     * @Security("user===userConnect and is_granted('ROLE_SUBSCRIBER')", message="Vous devez être identifier et valider par l'administration pour voir les prochains cours")
      */
-    public function bookingRemoveByUser(User $user, Booking $booking): Response
+    public function bookingRemoveByUser(User $userConnect, Booking $booking): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
-        $booking->removeUser($user);
+        $booking->removeUser($userConnect);
         $entityManager->persist($booking);
         $entityManager->flush();
         return $this->redirectToRoute('booking_by_user', array(
-            'user' => $user->getId()
+            'id' => $userConnect->getId()
         ));
     }
 

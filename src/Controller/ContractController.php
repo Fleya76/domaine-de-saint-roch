@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use DateTime;
 use DateInterval;
 use App\Entity\User;
 use App\Entity\Contract;
@@ -12,6 +13,7 @@ use App\Repository\ContractRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Security\Core\Security as SymfonySecurity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -29,17 +31,32 @@ class ContractController extends AbstractController
 
     /**
      * @Route("/", name="contract_index", methods={"GET"})
+     * @Security("is_granted('ROLE_ADMIN')")
      */
     public function index(ContractRepository $contractRepository): Response
     {
-        return $this->render('contract/index.html.twig', [
-            'contracts' => $contractRepository->findAll(),
+        //TODO : Code fonctionnel cependant pas optimisé. Trop long à charger
+        $contracts = $contractRepository->findAll();
+        $endContracts = [];
+        $dateTime = new DateTime();
+        foreach ($contracts as $contract) {
+            if ($dateTime < $contract->getEndAt()) {
+                if($dateTime > $contract->getEndAt()->sub(new DateInterval('P1M')))
+                {
+                    dump($contract->getEndAt());
+                    array_push($endContracts, $contract);
+                }
+            }
+        }
+        return $this->render('contract/overview.html.twig', [
+            'contracts' => $endContracts,
         ]);
     }
 
     
     /**
      * @Route("/new/{id}", name="contract_new", methods={"GET","POST"})
+     * @Security("is_granted('ROLE_ADMIN')")
      */
     public function new(User $user, Request $request): Response
     {
@@ -76,6 +93,7 @@ class ContractController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="contract_edit", methods={"GET","POST"})
+     * @Security("is_granted('ROLE_ADMIN')")
      */
     public function edit(Request $request, Contract $contract): Response
     {
@@ -96,6 +114,7 @@ class ContractController extends AbstractController
 
     /**
      * @Route("/{id}", name="contract_delete", methods={"DELETE"})
+     * @Security("is_granted('ROLE_ADMIN')")
      */
     public function delete(Request $request, Contract $contract): Response
     {

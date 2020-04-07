@@ -34,7 +34,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="{{ path("booking_index") }}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         {# TODO: Faire les badges de compte à valider #}
-                        Administration <span class="badge badge-warning">6</span>
+                        Administration <span class="badge badge-warning">{{notification.getUsersByEndContractSoon() + notification.getUsersCountNotValide()}}</span>
 
                         {# TODO: A gérer quand il y aura des notifs #}
                         {# {% if fin de contrat == 0 and validation !== 0 %}
@@ -53,9 +53,9 @@
                         {# TODO: Tableau d'utilisateurs #}
                         <a class="dropdown-item" href="{{ path("user_index") }}">Les clients du Domaine</a>
                         {# TODO: Les futurs fins de contrats + badge #}
-                        <a class="dropdown-item" href="{{ path("app_register") }}">Les clients en fin de contrat <span class="badge badge-danger">2</span></a>
+                        <a class="dropdown-item" href="{{ path("contract_index") }}">Les clients en fin de contrat <span class="badge badge-danger">{{notification.getUsersByEndContractSoon()}}</span></a>
                         {# TODO: Faire les badges de compte à valider + tableau de validation de compte#}
-                        <a class="dropdown-item" href="{{ path("user_validation") }}">Les profils en attentent de validation <span class="badge badge-success">4</span></a>
+                        <a class="dropdown-item" href="{{ path("user_validation") }}">Les profils en attentent de validation <span class="badge badge-success">{{notification.getUsersCountNotValide()}}</span></a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ path("user_show", {'id': app.user.id}) }}">Mon profil</a>
                     </div>
@@ -74,7 +74,7 @@
                     </li>
                     <li class="nav-item">
                         {# TODO: Faire les badges de compte à valider #}
-                        <a class="nav-link" href="{{ path("booking_by_user", {'user': app.user.id}) }}">Mes cours</a>
+                        <a class="nav-link" href="{{ path("booking_by_user", {'id': app.user.id}) }}">Mes cours</a>
                     </li>     
                 {% endif %}
 
