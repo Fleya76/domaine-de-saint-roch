@@ -3,7 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\UserType;
+use App\Form\RegistrationType;
+use App\Form\UpdateUserType;
 use App\Repository\UserRepository;
 use DateTime;
 use Symfony\Component\HttpFoundation\Request;
@@ -57,17 +58,18 @@ class UserController extends AbstractController
         // $entityManager->persist($dog);
         $entityManager->persist($user);
         $entityManager->flush();
-
+        $this->addFlash('success', $user->getFirstName() . ' ' .$user->getLastName() . ' à bien été validé.');
         return $this->redirectToRoute('user_validation');
     }
 
     /**
      * @Route("/{id}", name="user_show", methods={"GET"})
+     * @Security("user===userConnect or is_granted('ROLE_ADMIN')")
      */
-    public function show(User $user): Response
+    public function show(User $userConnect): Response
     {
         return $this->render('user/show.html.twig', [
-            'user' => $user,
+            'user' => $userConnect,
             'dateTime' => new DateTime()
         ]);
     }
@@ -78,12 +80,12 @@ class UserController extends AbstractController
      */
     public function edit(Request $request, User $userConnect): Response
     {
-        $form = $this->createForm(UserType::class, $userConnect);
+        $form = $this->createForm(UpdateUserType::class, $userConnect);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
+            $this->addFlash('success', $userConnect->getFirstName() . ' ' . $userConnect->getLastName() . ' à bien été modifié.');
             return $this->redirectToRoute('user_index');
         }
 
@@ -106,6 +108,7 @@ class UserController extends AbstractController
             foreach($user->getContract() as $contract){
                 $entityManager->remove($contract);
             }
+            $this->addFlash('warning', $user->getFirstName() . ' ' . $user->getLastName() . ' à bien été supprimé.');
             $entityManager->remove($user);
             $entityManager->flush();
         

@@ -13,7 +13,7 @@
         {% for contract in contracts %}
             <tr>
                 <td><a href="{{ path('contract_show', {'id': contract.id})}}">{{ contract.id }}</a></td>
-                <td> <a href="{{ path('user_show', {'id': contract.user.id})}}">{{ contract.user }}</a></td>
+                <td><a href="{{ path('user_show', {'id': contract.user.id})}}">{{ contract.user }}</a></td>
                 <td><a href="{{ path('contract_show', {'id': contract.id})}}">{{ contract.beginAt ? contract.beginAt|date('d-m-Y ')}}</a></td>
                 <td><a href="{{ path('contract_show', {'id': contract.id})}}">{{ contract.endAt ? contract.endAt|date('d-m-Y')}}</a></td>
                 <td>

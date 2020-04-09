@@ -2,12 +2,11 @@
 
 namespace App\Controller;
 
-use App\Entity\Dog;
 use App\Entity\User;
-use App\Form\DogType;
-use App\Form\UserType;
+use App\Events\RegistrationEvent;
 use App\Form\RegistrationType;
 use App\Security\LoginFormAuthenticator;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,7 +20,7 @@ class RegistrationController extends AbstractController
     /**
      * @Route("/register", name="app_register")
      */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, LoginFormAuthenticator $authenticator): Response
+    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, LoginFormAuthenticator $authenticator, EventDispatcherInterface $eventDispatcher): Response
     {
 
         // TODO: Si un utilisateur s'inscrit et est en attente de validation, Jimmy reçoit une notification par mail ou SMS
@@ -29,7 +28,7 @@ class RegistrationController extends AbstractController
         
         $user = new User();
 
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createForm(RegistrationType::class, $user);
         $form->handleRequest($request);
 
         dump($request);
@@ -51,6 +50,7 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
+            // $eventDispatcher->dispatch( new RegistrationEvent($user));
             // do anything else you need here, like send an email
 
             return $guardHandler->authenticateUserAndHandleSuccess(
