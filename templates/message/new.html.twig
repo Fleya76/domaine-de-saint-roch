@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Les clients inscrits au Domaine de Saint-Roch 🐾{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h1>Prise de rendez-vous individuel 🐾</h1>
+        {# TODO: à retravailler #}
+        <p>Indiquer votre message et les dates où vous êtes disponible ainsi que ce que vous voulez travaillez.</p>
+        {% include "message/_form.html.twig" %}
+    </div>
+{% endblock %}

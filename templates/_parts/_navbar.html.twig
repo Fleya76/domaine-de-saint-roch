@@ -12,7 +12,7 @@
                 </li>
                 <li class="nav-item">
                     {# TODO: Créer le système de prise de rendez-vous individuel #}
-                    <a class="nav-link" href="{{ path("user_contact", {'id' : app.user.id}) }}">Prise de rendez-vous</a>
+                    <a class="nav-link" href="{{ path("message_new", {'id' : app.user.id}) }}">Prise de rendez-vous</a>
                 </li> 
             {% endif %}
             {# <li class="nav-item">
@@ -49,6 +49,9 @@
                         <a class="dropdown-item" href="{{ path("booking_overview") }}">Gestion du planning</a>
                         {# TODO: Faire les badges de compte à valider #}
                         
+
+                   
+                        
                         <div class="dropdown-divider"></div>
                         {# TODO: Tableau d'utilisateurs #}
                         <a class="dropdown-item" href="{{ path("user_index") }}">Les clients du Domaine</a>
@@ -56,6 +59,9 @@
                         <a class="dropdown-item" href="{{ path("contract_index") }}">Les clients en fin de contrat <span class="badge badge-danger">{{notification.getUsersByEndContractSoon()}}</span></a>
                         {# TODO: Faire les badges de compte à valider + tableau de validation de compte#}
                         <a class="dropdown-item" href="{{ path("user_validation") }}">Les profils en attentent de validation <span class="badge badge-success">{{notification.getUsersCountNotValide()}}</span></a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{{ path("message_index") }}">Mes messages <span class="badge badge-info">{{notification.getUsersCountNotValide()}}</a>
+                        {# TODO: Faire les badges de message #}
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ path("user_show", {'id': app.user.id}) }}">Mon profil</a>
                     </div>

@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Message index{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Mes messages</h1>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Sujet</th>
+                    <th>Client</th>
+                    <th>Envoyée le</th>
+                    <th>actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for message in messages %}
+                <tr>
+                
+                    <td><a href="{{path('message_show', {'id' : message.id})}}">{{ message.id }}</a></td>
+                    <td><a href="{{path('message_show', {'id' : message.id})}}">{{ message.subject }}</a></td>
+                    <td><a href="{{path('message_show', {'id' : message.id})}}">{{ message.author }}</a></td>
+                    <td><a href="{{path('message_show', {'id' : message.id})}}">{{ message.sendAt ? message.sendAt|date('d-m-Y') : '' }}</a></td>
+                    <td>
+                        <a href="{{ path('message_show', {'id': message.id}) }}">Regarder</a>
+                        <a href="{{ path('message_delete', {'id': message.id}) }}">Supprimer</a>
+                    </td>
+                    
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">Pas de message.</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <a href="{{ path('message_new', {'id' : app.user.id}) }}">Create new</a>
+    </div>
+    
+{% endblock %}

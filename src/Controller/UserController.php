@@ -139,26 +139,26 @@ class UserController extends AbstractController
         return $this->redirectToRoute($redirection);
     }
 
-    /**
-     * @Route("/{id}/contact", name="user_contact")
-     */
-    public function contact(User $user, Request $request)
-    {
-        $message = new Message();
+    // /**
+    //  * @Route("/{id}/contact", name="user_contact")
+    //  */
+    // public function contact(User $user, Request $request)
+    // {
+    //     $message = new Message();
     
-        $form = $this->createForm(MessageType::class, $message);
-        dump($form);
-        // $form = $this->createForm(UpdateUserType::class, $userConnect);
-        $form->handleRequest($request);
+    //     $form = $this->createForm(MessageType::class, $message);
+    //     dump($form);
+    //     // $form = $this->createForm(UpdateUserType::class, $userConnect);
+    //     $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            // $this->getDoctrine()->getManager()->flush();
-            // $this->addFlash('success', $userConnect->getFirstName() . ' ' . $userConnect->getLastName() . ' à bien été modifié.');
-            // return $this->redirectToRoute('user_index');
-        }
+    //     if ($form->isSubmitted() && $form->isValid()) {
+    //         // $this->getDoctrine()->getManager()->flush();
+    //         // $this->addFlash('success', $userConnect->getFirstName() . ' ' . $userConnect->getLastName() . ' à bien été modifié.');
+    //         // return $this->redirectToRoute('user_index');
+    //     }
 
-        return $this->render('user/contact.html.twig', [
-            'form' => $form->createView(),
-        ]);
-    }
+    //     return $this->render('user/contact.html.twig', [
+    //         'form' => $form->createView(),
+    //     ]);
+    // }
 }
