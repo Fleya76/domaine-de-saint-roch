@@ -7,7 +7,7 @@ use Symfony\Contracts\EventDispatcher\Event;
  
 class RegistrationEvent extends Event
 {
-    protected $comment;
+    protected $user;
  
     public function __construct(User $user)
     {

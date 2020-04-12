@@ -35,16 +35,17 @@
             </tbody>
         </table>
         <div class="actionButton">
+            <a href="{{ path('booking_reservation', {'id': booking.id, 'user': app.user.id}) }}">
+                <button type="button" class="btn btn-success mr-1">Je souhaite participer</button>
+            </a>
             {% if is_granted('ROLE_ADMIN') %}
                 <a href="{{ path('booking_edit', {'id': booking.id}) }}">
                     <button type="button" class="btn btn-info mr-1">Modifier</button>
                 </a>
                 {{ include('booking/_delete_form.html.twig') }}
             {% endif %}
-            <a href="{{ path('booking_reservation', {'id': booking.id, 'user': app.user.id}) }}">
-                <button type="button" class="btn btn-success mr-1">Je souhaite participer</button>
-            </a>
             <a href="{{ path('booking_index') }}">Voir le planning</a>
+
         </div>
         {% if is_granted('ROLE_ADMIN') %}
             {{ include('user/_table_users.html.twig', {'action' :'view', 'users' : booking.users}) }}

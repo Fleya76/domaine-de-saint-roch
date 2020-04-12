@@ -22,16 +22,12 @@ class RegistrationController extends AbstractController
      */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, LoginFormAuthenticator $authenticator, EventDispatcherInterface $eventDispatcher): Response
     {
-
-        // TODO: Si un utilisateur s'inscrit et est en attente de validation, Jimmy reçoit une notification par mail ou SMS
-
         
         $user = new User();
 
         $form = $this->createForm(RegistrationType::class, $user);
         $form->handleRequest($request);
 
-        dump($request);
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
             $user->setPassword(
@@ -50,7 +46,7 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            // $eventDispatcher->dispatch( new RegistrationEvent($user));
+            $eventDispatcher->dispatch( new RegistrationEvent($user));
             // do anything else you need here, like send an email
 
             return $guardHandler->authenticateUserAndHandleSuccess(

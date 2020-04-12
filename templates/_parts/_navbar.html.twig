@@ -12,7 +12,7 @@
                 </li>
                 <li class="nav-item">
                     {# TODO: Créer le système de prise de rendez-vous individuel #}
-                    <a class="nav-link" href="{{ path("booking_index") }}">Prise de rendez-vous</a>
+                    <a class="nav-link" href="{{ path("user_contact", {'id' : app.user.id}) }}">Prise de rendez-vous</a>
                 </li> 
             {% endif %}
             {# <li class="nav-item">

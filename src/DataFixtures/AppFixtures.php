@@ -8,6 +8,7 @@ use App\Entity\Dog;
 use App\Entity\User;
 use App\Entity\Place;
 use App\Entity\Booking;
+use App\Entity\Message;
 use App\Entity\Category;
 use App\Entity\Contract;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -146,6 +147,13 @@ class AppFixtures extends Fixture
                 $contract->setEndAt($faker->dateTimeInInterval($contract->getBeginAt(), $interval = '+ 1 year'));
                 $manager->persist($contract);
     
+                $message = new Message();
+                $message->setSubject("Demande de rendez-vous")
+                    ->setSendAt(new \DateTime())
+                    ->setContent($faker->paragraph($nbSentences = 3, $variableNbSentences = true))
+                    ->setAuthor($user)
+                    ->setDog($dog);
+                $manager->persist($message);
             }
         }
 

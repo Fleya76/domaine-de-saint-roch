@@ -5,12 +5,14 @@ namespace App\Controller;
 use DateTime;
 use App\Entity\User;
 use App\Entity\Booking;
+use App\Util\Fonctions;
 use App\Form\BookingType;
 use App\Repository\BookingRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BookingController extends AbstractController
@@ -67,7 +69,7 @@ class BookingController extends AbstractController
      */
     public function show(Booking $booking): Response
     {
-        dump($booking);
+        // dump($booking);
         return $this->render('booking/show.html.twig', [
             'booking' => $booking,
             'dateTime' => new DateTime()
@@ -114,16 +116,44 @@ class BookingController extends AbstractController
      * @Route("/booking/{id}/{user}", name="booking_reservation")
      * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
      */
-    public function reservation(Booking $booking, User $user)
+    public function reservation(Booking $booking, User $user, \Swift_Mailer $mailer)
     {
         $entityManager = $this->getDoctrine()->getManager();
         $booking->addUser($user);
+
+        $mail_admin=Fonctions::getEnv('mail_admin');
+
+        $href = $this->generateUrl('booking_by_user', [
+            'id' => $user->getId()
+        ], UrlGeneratorInterface::ABSOLUTE_URL);
+
+        $lien='<br><a href="'.$href.'">Afficher mes prochains du Domaine de Saint-Roch</a>';
+        //Envoi du message
+        $message = new \Swift_Message('Domaine De Saint-Roch');
+        $message->setFrom($mail_admin);
+        $message->setTo([$user->getEmail() => 'Utilisateur']);
+        $message->setBody("
+            <h1>Bonjour " . $user . "</h1>
+            Vous vous êtes inscrit pour l'événement suivant : " . $booking->getTitle() . "
+            <br>
+            <br>Pour vous désinscrire  : ". $lien ."
+            <br>
+            <br>
+            L'équipe du Domaine de Saint-Roch.
+            ",
+            'text/html'
+        );
+        try {
+            $retour=$mailer->send($message);
+        }
+        catch (\Swift_TransportException $e) {
+            $retour= $e->getMessage();
+        }
+
         $entityManager->persist($booking);
         $entityManager->flush();
         return $this->redirectToRoute('booking_index');
     }
-
-    // TODO: Sécuriser les routes pour que personnes d'autre mise à part l'admin et la personne identifié et auteur de l'action puisse intervenir
 
     /**
      * @Route("/{id}/booking/reservation", name="booking_by_user", methods={"GET"})

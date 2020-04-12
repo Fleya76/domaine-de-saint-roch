@@ -17,6 +17,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Security\Core\Security as SymfonySecurity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+//TODO: Créer un cron pour notifier les utilisateurs en fin de contrat -1M
 /**
  * @Route("/contract")
  */
@@ -43,7 +44,7 @@ class ContractController extends AbstractController
             if ($dateTime < $contract->getEndAt()) {
                 if($dateTime > $contract->getEndAt()->sub(new DateInterval('P1M')))
                 {
-                    dump($contract->getEndAt());
+                    // dump($contract->getEndAt());
                     array_push($endContracts, $contract);
                 }
             }
