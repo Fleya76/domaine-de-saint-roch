@@ -4,8 +4,10 @@ namespace App\Service;
 
 use DateTime;
 use DateInterval;
+use App\Entity\Message;
 use App\Repository\UserRepository;
 use App\Repository\ContractRepository;
+use App\Repository\MessageRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -13,10 +15,12 @@ class Notification extends AbstractController
 {
     private $userRepository;
     private $contractRepository;
+    private $messageRepository;
 
-    public function __construct(UserRepository $userRepository, ContractRepository $contractRepository) {
+    public function __construct(UserRepository $userRepository, ContractRepository $contractRepository, MessageRepository $messageRepository) {
         $this->userRepository = $userRepository;
         $this->contractRepository = $contractRepository;
+        $this->message = $messageRepository;
     }
 
     public function getUsersCountNotValide()
@@ -42,5 +46,14 @@ class Notification extends AbstractController
         // return count($endContracts);
         return 2;
     }
+    public function getMessageCount()
+    {
+        //TODO : Code à faire. Trop long à charger
+
+        // return count($this->messageRepository->findBy(['messageRead' => '0']));
+        // return count($this->messageRepository->findBy(['messageRead' => '0']));
+        return 2;
+    }
+
 
 }

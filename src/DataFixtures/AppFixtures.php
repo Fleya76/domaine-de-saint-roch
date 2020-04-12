@@ -150,9 +150,10 @@ class AppFixtures extends Fixture
                 $message = new Message();
                 $message->setSubject("Demande de rendez-vous")
                     ->setSendAt(new \DateTime())
-                    ->setContent($faker->paragraph($nbSentences = 3, $variableNbSentences = true))
+                    ->setContent($faker->paragraph($nbSentences = 15, $variableNbSentences = true))
                     ->setAuthor($user)
-                    ->setDog($dog);
+                    ->setDog($dog)
+                    ->setMessageRead(false);
                 $manager->persist($message);
             }
         }

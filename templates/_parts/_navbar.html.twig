@@ -14,6 +14,10 @@
                     {# TODO: Créer le système de prise de rendez-vous individuel #}
                     <a class="nav-link" href="{{ path("message_new", {'id' : app.user.id}) }}">Prise de rendez-vous</a>
                 </li> 
+                <li class="nav-item">
+                    {# TODO: Créer le système de vidéo #}
+                    <a class="nav-link" href="{{ path("booking_index") }}">Les cours vidéos</a>
+                </li> 
             {% endif %}
             {# <li class="nav-item">
                 <a class="nav-link" href="{{ path("planning") }}">Contact</a>
@@ -60,7 +64,7 @@
                         {# TODO: Faire les badges de compte à valider + tableau de validation de compte#}
                         <a class="dropdown-item" href="{{ path("user_validation") }}">Les profils en attentent de validation <span class="badge badge-success">{{notification.getUsersCountNotValide()}}</span></a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{{ path("message_index") }}">Mes messages <span class="badge badge-info">{{notification.getUsersCountNotValide()}}</a>
+                        <a class="dropdown-item" href="{{ path("message_index") }}">Mes messages <span class="badge badge-info">{{notification.getMessageCount()}}</a>
                         {# TODO: Faire les badges de message #}
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ path("user_show", {'id': app.user.id}) }}">Mon profil</a>
@@ -74,6 +78,10 @@
                         {# TODO: Faire le formulaire d'ajout de cours #}
                         <a class="nav-link" href="{{ path("booking_new") }}">Ajouter un cours</a>
                     </li>    
+                <li class="nav-item">
+                    {# TODO: Créer le système de vidéo #}
+                    <a class="nav-link" href="{{ path("booking_index") }}">Ajouter une vidéo</a>
+                </li> 
                 {% else %}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path("user_show", {'id': app.user.id}) }}">Mon profil</a>

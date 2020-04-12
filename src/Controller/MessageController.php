@@ -41,6 +41,7 @@ class MessageController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $message->setSendAt(new \DateTime())
                 ->setAuthor($user)
+                ->setMessageRead(false)
                 ->setSubject('Demande de rendez-vous individuel');
                 // ->setDog($user->getDog());
             $entityManager = $this->getDoctrine()->getManager();
@@ -62,6 +63,12 @@ class MessageController extends AbstractController
      */
     public function show(Message $message): Response
     {
+        $message->setMessageRead(true);
+        
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($message);
+        $entityManager->flush();
+
         return $this->render('message/show.html.twig', [
             'message' => $message,
         ]);

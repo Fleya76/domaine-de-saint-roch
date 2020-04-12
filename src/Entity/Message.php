@@ -41,6 +41,11 @@ class Message
      */
     private $dog;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $messageRead;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -102,6 +107,18 @@ class Message
     public function setDog(?Dog $dog): self
     {
         $this->dog = $dog;
+
+        return $this;
+    }
+
+    public function getMessageRead(): ?bool
+    {
+        return $this->messageRead;
+    }
+
+    public function setMessageRead(bool $messageRead): self
+    {
+        $this->messageRead = $messageRead;
 
         return $this;
     }

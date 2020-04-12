@@ -4,7 +4,7 @@
 
 {% block body %}
     <div class="container">
-        <h1>Message</h1>
+        <h1>Message de {{ message.author }}</h1>
 
         <table class="table">
             <tbody>
@@ -35,12 +35,19 @@
                 </tr>
             </tbody>
         </table>
-
-        <a href="{{ path('message_index') }}">back to list</a>
-
-        <a href="{{ path('message_edit', {'id': message.id}) }}">edit</a>
-
-        {{ include('message/_delete_form.html.twig') }}
+        <div class="actionButton">
+            <a href="{{ path('message_index') }}">
+                <button class="btn btn-info mr-1">
+                    Répondre
+                </button>
+            </a>
+            <a href="{{ path('message_index') }}">
+                <button class="btn btn-info mr-1">
+                    Voir autres messages
+                </button>
+            </a>
+            {{ include('message/_delete_form.html.twig') }}
+        </div>
     </div>
 
 {% endblock %}
