@@ -11,7 +11,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Util\Fonctions;
 
 /**
  * @Route("/message")
@@ -32,7 +34,7 @@ class MessageController extends AbstractController
     /**
      * @Route("/{id}/new", name="message_new", methods={"GET","POST"})
      */
-    public function new(Request $request, User $user): Response
+    public function new(Request $request, User $user, \Swift_Mailer $mailer): Response
     {
         $message = new Message();
         $form = $this->createForm(MessageType::class, $message);
@@ -48,7 +50,40 @@ class MessageController extends AbstractController
             $entityManager->persist($message);
             $entityManager->flush();
 
-            return $this->redirectToRoute('message_index');
+            $mail_admin=Fonctions::getEnv('mail_admin');
+
+            $href = $this->generateUrl('booking_by_user', [
+                'id' => $user->getId()
+            ], UrlGeneratorInterface::ABSOLUTE_URL);
+    
+            $lien='<br><a href="'.$href.'">Afficher mes prochains cours du Domaine de Saint-Roch</a>';
+            //Envoi du message
+            $mail = new \Swift_Message($message->getSubject());
+            $mail->setFrom($mail_admin);
+            $mail->setTo([$user->getEmail() => 'Utilisateur']);
+            $mail->setBody("
+                <h1>" . $message->getSubject() . "</h1>
+                Auteur du message : " . $message->getAuthor() . "
+                <br>
+                Envoyé le : " . $message->getSendAt()->format('H:i:s d-m-Y ') . "
+                <br>
+                <br>
+                " . $message->getContent() . "
+                <br>
+                <br>
+                L'équipe du Domaine de Saint-Roch.
+                ",
+                'text/html'
+            );
+            try {
+                $retour=$mailer->send($mail);
+            }
+            catch (\Swift_TransportException $e) {
+                $retour= $e->getMessage();
+            }
+            $this->addFlash('success', 'Votre demande à bien été prise en compte, un éducateur vous recontactera');
+            // TODO: Envoie d'une notif par mail à l'admin
+            return $this->redirectToRoute('booking_index');
         }
 
         return $this->render('message/new.html.twig', [
@@ -96,16 +131,17 @@ class MessageController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="message_delete", methods={"DELETE"})
+     * @Route("/delete/{id}", name="message_delete")
      * @Security("is_granted('ROLE_ADMIN')")
      */
     public function delete(Request $request, Message $message): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$message->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($message);
-            $entityManager->flush();
-        }
+        $this->addFlash('warning', 'Le message à bien été supprimé');
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($message);
+        $entityManager->flush();
+    
 
         return $this->redirectToRoute('message_index');
     }

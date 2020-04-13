@@ -127,7 +127,7 @@ class BookingController extends AbstractController
             'id' => $user->getId()
         ], UrlGeneratorInterface::ABSOLUTE_URL);
 
-        $lien='<br><a href="'.$href.'">Afficher mes prochains du Domaine de Saint-Roch</a>';
+        $lien='<br><a href="'.$href.'">Afficher mes prochains cours du Domaine de Saint-Roch</a>';
         //Envoi du message
         $message = new \Swift_Message('Domaine De Saint-Roch');
         $message->setFrom($mail_admin);

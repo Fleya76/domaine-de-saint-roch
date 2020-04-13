@@ -11,12 +11,12 @@
                     <a class="nav-link" href="{{ path("booking_index") }}">Planning</span></a>
                 </li>
                 <li class="nav-item">
-                    {# TODO: Créer le système de prise de rendez-vous individuel #}
-                    <a class="nav-link" href="{{ path("message_new", {'id' : app.user.id}) }}">Prise de rendez-vous</a>
-                </li> 
-                <li class="nav-item">
                     {# TODO: Créer le système de vidéo #}
                     <a class="nav-link" href="{{ path("booking_index") }}">Les cours vidéos</a>
+                </li> 
+                <li class="nav-item">
+                    {# TODO: Créer le système de prise de rendez-vous individuel #}
+                    <a class="nav-link" href="{{ path("message_new", {'id' : app.user.id}) }}">Prise de rendez-vous</a>
                 </li> 
             {% endif %}
             {# <li class="nav-item">
