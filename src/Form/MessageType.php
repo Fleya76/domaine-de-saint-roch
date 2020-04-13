@@ -19,9 +19,11 @@ class MessageType extends AbstractType
     // {
     //     $this->user = $user;
     // }
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        // $dog = $options['dog'];
+        // dump($options);
+
         //TODO: Récupérer l'utilisateur connecté
         //TODO: Récupérer les chiens de l'utilisateur.
         $builder

@@ -12,7 +12,7 @@
                 </li>
                 <li class="nav-item">
                     {# TODO: Créer le système de vidéo #}
-                    <a class="nav-link" href="{{ path("booking_index") }}">Les cours vidéos</a>
+                    <a class="nav-link" href="{{ path("video_index") }}">Les cours vidéos</a>
                 </li> 
                 <li class="nav-item">
                     {# TODO: Créer le système de prise de rendez-vous individuel #}
@@ -51,11 +51,10 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="{{ path("booking_overview") }}">Gestion du planning</a>
-                        {# TODO: Faire les badges de compte à valider #}
-                        
+
+                        <a class="dropdown-item" href="{{ path("video_overview") }}">Gestion des vidéos</a>
 
                    
-                        
                         <div class="dropdown-divider"></div>
                         {# TODO: Tableau d'utilisateurs #}
                         <a class="dropdown-item" href="{{ path("user_index") }}">Les clients du Domaine</a>
@@ -80,7 +79,7 @@
                     </li>    
                 <li class="nav-item">
                     {# TODO: Créer le système de vidéo #}
-                    <a class="nav-link" href="{{ path("booking_index") }}">Ajouter une vidéo</a>
+                    <a class="nav-link" href="{{ path("video_new") }}">Ajouter une vidéo</a>
                 </li> 
                 {% else %}
                     <li class="nav-item">

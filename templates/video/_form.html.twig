@@ -1,0 +1,10 @@
+{{ form_start(form) }}
+    {{ form_row(form.title, {'attr' : {'class' : 'form-control'}}) }}
+    {{ form_row(form.path, {'attr': {'class' : 'form-control'}}) }}
+    {{ form_row(form.content, {'attr' : {'class' : 'form-control'}}) }}
+    <button class="btn mt-3 mb-3 btn-success">Mettre en ligne la vidéo</button>
+{{ form_end(form) }}
+<script src="/ckeditor/ckeditor.js"></script>
+<script>      
+    CKEDITOR.replace( 'video_content' );
+</script>

@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ video.title }} - Domaine de Saint-Roch{% endblock %}
+
+{% block body %}
+    {# TODO: Rendre interdit le clic droit pour télécharger la vidéo #}
+    <div class="container">
+        <h1>{{ video.title }}</h1>
+        <p>Crée le {{ video.createdAt ? video.createdAt|date('Y-m-d H:i:s') : '' }}</p>
+        <video controls width="100%">
+            <source src="{{chemin_video}}/{{video.path}}" type="video/mp4">
+        </video>
+        {{ video.content|raw }}
+
+        <a href="{{ path('video_index') }}">back to list</a>
+
+        <a href="{{ path('video_edit', {'id': video.id}) }}">edit</a>
+
+        {{ include('video/_delete_form.html.twig') }}
+    </div>
+
+{% endblock %}

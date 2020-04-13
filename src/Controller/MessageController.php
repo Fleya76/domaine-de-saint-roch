@@ -27,7 +27,7 @@ class MessageController extends AbstractController
     public function index(MessageRepository $messageRepository): Response
     {
         return $this->render('message/index.html.twig', [
-            'messages' => $messageRepository->findAll(),
+            'messages' => array_reverse($messageRepository->findAll()),
         ]);
     }
 
@@ -37,7 +37,10 @@ class MessageController extends AbstractController
     public function new(Request $request, User $user, \Swift_Mailer $mailer): Response
     {
         $message = new Message();
-        $form = $this->createForm(MessageType::class, $message);
+        $form = $this->createForm(MessageType::class, $message, [
+            // 'dog' => $user->getDog()
+        ]);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -58,6 +61,8 @@ class MessageController extends AbstractController
     
             $lien='<br><a href="'.$href.'">Afficher mes prochains cours du Domaine de Saint-Roch</a>';
             //Envoi du message
+
+            // TODO: Ajouter un lien pour répondre
             $mail = new \Swift_Message($message->getSubject());
             $mail->setFrom($mail_admin);
             $mail->setTo([$user->getEmail() => 'Utilisateur']);
@@ -71,7 +76,7 @@ class MessageController extends AbstractController
                 " . $message->getContent() . "
                 <br>
                 <br>
-                L'équipe du Domaine de Saint-Roch.
+                " . $message->getAuthor() . "
                 ",
                 'text/html'
             );
