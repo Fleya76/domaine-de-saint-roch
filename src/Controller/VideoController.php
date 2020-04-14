@@ -10,6 +10,7 @@ use App\Repository\VideoRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
@@ -29,6 +30,7 @@ class VideoController extends AbstractController
 
     /**
      * @Route("/", name="video_overview", methods={"GET"})
+     * @Security("is_granted('ROLE_ADMIN')")
      */
     public function overview(VideoRepository $videoRepository): Response
     {
@@ -40,6 +42,7 @@ class VideoController extends AbstractController
 
     /**
      * @Route("/new", name="video_new", methods={"GET","POST"})
+     * @Security("is_granted('ROLE_ADMIN')")
      */
     public function new(Request $request, FileUploader $fileUploader): Response
     {
@@ -86,6 +89,7 @@ class VideoController extends AbstractController
 
     /**
      * @Route("/{id}", name="video_show", methods={"GET"})
+     * @Security("is_granted('ROLE_ADMIN')")
      */
     public function show(Video $video): Response
     {
@@ -96,6 +100,7 @@ class VideoController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="video_edit", methods={"GET","POST"})
+     * @Security("is_granted('ROLE_ADMIN')")
      */
     public function edit(Request $request, Video $video): Response
     {
@@ -106,6 +111,8 @@ class VideoController extends AbstractController
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('video_index');
+            $this->addFlash('success', 'La vidéo a bien été modifié');
+
         }
 
         return $this->render('video/edit.html.twig', [
@@ -116,9 +123,13 @@ class VideoController extends AbstractController
 
     /**
      * @Route("/delete/{id}", name="video_delete")
+     * @Security("is_granted('ROLE_ADMIN')")
      */
     public function delete(Request $request, Video $video): Response
     {
+        $this->addFlash('warning', 'La vidéo a bien été supprimé');
+
+
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($video);
         $entityManager->flush();
