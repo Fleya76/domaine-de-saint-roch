@@ -84,6 +84,7 @@ class ContractController extends AbstractController
 
     /**
      * @Route("/{id}", name="contract_show", methods={"GET"})
+     *  @Security("is_granted('IS_AUTHENTICATED_FULLY')")
      */
     public function show(Contract $contract): Response
     {

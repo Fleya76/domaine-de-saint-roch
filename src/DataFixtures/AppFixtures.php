@@ -7,6 +7,7 @@ use Faker\Factory;
 use App\Entity\Dog;
 use App\Entity\User;
 use App\Entity\Place;
+use App\Entity\Video;
 use App\Entity\Booking;
 use App\Entity\Message;
 use App\Entity\Category;
@@ -80,6 +81,14 @@ class AppFixtures extends Fixture
         $place3->setTitle('Extérieure');
         $manager->persist($place3);
 
+        for ($v=0; $v < 20; $v++) { 
+            $video = new Video();
+            $video->setTitle($faker->sentence($nbWords = 6, $variableNbWords = true))
+                ->setPath("5e94c0380e29c.mp4")
+                ->setCreatedAt($faker->dateTimeBetween('-3 months'))
+                ->setContent($faker->paragraph($nbSentences = 3, $variableNbSentences = true));
+            $manager->persist($video);
+        }
         for ($e=0; $e < 70; $e++) { 
             $booking = new Booking();
             $booking->setTitle($faker->sentence($nbWords = 6, $variableNbWords = true))

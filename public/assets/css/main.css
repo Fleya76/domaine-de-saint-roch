@@ -40,3 +40,68 @@ td a {
         vertical-align: inherit!important;
     }
 }
+
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    max-width: 300px;
+    margin: auto;
+    text-align: center;
+    color: black!important;
+  }
+.card .title {
+color: grey;
+font-size: 18px;
+}
+
+.card  .button {
+border: none;
+outline: 0;
+display: inline-block;
+padding: 8px;
+text-align: center;
+cursor: pointer;
+width: 100%;
+font-size: 18px;
+}
+
+.card a {
+text-decoration: none;
+font-size: 22px;
+color: black!important;
+}
+
+.card  button:hover, a:hover {
+opacity: 0.7;
+}
+
+.card   .ads-card-grid{
+display: flex;
+flex-wrap : wrap;
+justify-content: space-between;
+}
+
+.card .grey{
+background-color: #dadada;
+}
+
+.card  .blue{
+background-color: blue;
+}
+
+.card  .ads-card-grid img {
+height: 200;
+width: 300;
+}
+
+@media screen and (min-width: 800px) {
+.video{
+    flex-wrap: wrap;
+    display: flex;
+    justify-content: space-between;
+}
+}
+.video{
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+

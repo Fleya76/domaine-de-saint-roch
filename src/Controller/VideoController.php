@@ -20,22 +20,23 @@ class VideoController extends AbstractController
 {
     /**
      * @Route("/", name="video_index", methods={"GET"})
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
      */
     public function index(VideoRepository $videoRepository): Response
     {
         return $this->render('video/videos.html.twig', [
-            'videos' => $videoRepository->findAll(),
+            'videos' => array_reverse($videoRepository->findAll()),
         ]);
     }
 
     /**
-     * @Route("/", name="video_overview", methods={"GET"})
+     * @Route("/overview", name="video_overview", methods={"GET"})
      * @Security("is_granted('ROLE_ADMIN')")
      */
     public function overview(VideoRepository $videoRepository): Response
     {
         return $this->render('video/overview.html.twig', [
-            'videos' => $videoRepository->findAll(),
+            'videos' => array_reverse($videoRepository->findAll()),
         ]);
     }
 

@@ -20,7 +20,7 @@ class Notification extends AbstractController
     public function __construct(UserRepository $userRepository, ContractRepository $contractRepository, MessageRepository $messageRepository) {
         $this->userRepository = $userRepository;
         $this->contractRepository = $contractRepository;
-        $this->message = $messageRepository;
+        $this->messageRepository = $messageRepository;
     }
 
     public function getUsersCountNotValide()
@@ -50,7 +50,7 @@ class Notification extends AbstractController
     {
         //TODO : Code à faire. Trop long à charger
 
-        // return count($this->messageRepository->findBy(['messageRead' => '0']));
+        return count($this->messageRepository->findBy(['messageRead' => '0']));
         // return count($this->messageRepository->findBy(['messageRead' => '0']));
         return 2;
     }

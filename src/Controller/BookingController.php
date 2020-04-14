@@ -66,6 +66,7 @@ class BookingController extends AbstractController
 
     /**
      * @Route("/booking/{id}", name="booking_show", methods={"GET"})
+     *  @Security("is_granted('IS_AUTHENTICATED_FULLY')")
      */
     public function show(Booking $booking): Response
     {

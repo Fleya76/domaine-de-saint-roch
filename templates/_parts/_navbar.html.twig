@@ -38,7 +38,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="{{ path("booking_index") }}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         {# TODO: Faire les badges de compte à valider #}
-                        Administration <span class="badge badge-warning">{{notification.getUsersByEndContractSoon() + notification.getUsersCountNotValide()}}</span>
+                        Administration <span class="badge badge-warning">{{notification.getUsersByEndContractSoon() + notification.getUsersCountNotValide() + notification.getMessageCount()}}</span>
 
                         {# TODO: A gérer quand il y aura des notifs #}
                         {# {% if fin de contrat == 0 and validation !== 0 %}
