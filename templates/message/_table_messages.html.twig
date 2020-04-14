@@ -1,0 +1,39 @@
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Sujet</th>
+                <th>Client</th>
+                <th>Envoyée le</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for message in messages %}
+            <tr>
+                {# TODO: Code à optimiser  #}
+                {% if message.messageRead %}
+                    <td><a href="{{path('message_show', {'id' : message.id})}}">{{ message.id }}</a></td>
+                    <td><a href="{{path('message_show', {'id' : message.id})}}">{{ message.subject }}</a></td>
+                    <td><a href="{{path('message_show', {'id' : message.id})}}">{{ message.author }}</a></td>
+                    <td><a href="{{path('message_show', {'id' : message.id})}}">{{ message.sendAt ? message.sendAt|date('d-m-Y') : '' }}</a></td>
+                {% else %}
+                    <td><a href="{{path('message_show', {'id' : message.id})}}"><b>{{ message.id }}</b></a></td>
+                    <td><a href="{{path('message_show', {'id' : message.id})}}"><b>{{ message.subject }}</b></a></td>
+                    <td><a href="{{path('message_show', {'id' : message.id})}}"><b>{{ message.author }}</b></a></td>
+                    <td><a href="{{path('message_show', {'id' : message.id})}}"><b>{{ message.sendAt ? message.sendAt|date('d-m-Y') : '' }}</b></a></td>
+                {% endif %}
+                    <td>
+                        <a href="{{ path('message_show', {'id': message.id}) }}"><span class="blue">Regarder</span></a>
+                        <a href="{{ path('message_delete', {'id': message.id}) }}"><span class="red">Supprimer</span></a>
+                    </td>   
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">Pas de message.</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>

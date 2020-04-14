@@ -15,37 +15,10 @@
         eiusmod minim diamlorem laboriosam, mus ratione nobis condimentum velit mauris porttitor p
         er sollicitudin rhoncus magni egestas curae irure faucibus accusamus. Consectetuer neque pa
         riatur atque elementum hendrerit, autem lacus incididunt vel! Inceptos class, sodales provident cupidatat excepturi.</p>
+        <div class="table-responve">
+        </div>
         <table class="table">
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Titre</th>
-                    <th>Nom de la vidéo</th>
-                    <th>Crée le</th>
-                    <th>Description</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for video in videos %}
-                <tr>
-                    <td><a href="{{path('video_show', {'id' : video.id})}}">{{ video.id }}</a></td>
-                    <td><a href="{{path('video_show', {'id' : video.id})}}">{{ video.title }}</a></td>
-                    <td><a href="{{path('video_show', {'id' : video.id})}}">{{ video.path }}</a></td>
-                    <td><a href="{{path('video_show', {'id' : video.id})}}">{{ video.createdAt ? video.createdAt|date('Y-m-d H:i:s') : '' }}</a></td>
-                    <td><a href="{{path('video_show', {'id' : video.id})}}">{{ video.content|u.truncate(20, '...')}}</a></td>
-                    <td>
-                        <a href="{{ path('video_edit', {'id': video.id}) }}"><span class="blue">Modifier</span></a>
-                        <a href="{{ path('video_delete', {'id': video.id}) }}"><span class="red">Supprimer</span></a>
-                    </td>
-                </tr>
-            {% else %}
-                <tr>
-                    <td colspan="6">Pas de vidéo publiée.</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+
         <a href="{{ path('video_new') }}">Créer une nouvelle vidéo</a>
     </div>
 {% endblock %}
