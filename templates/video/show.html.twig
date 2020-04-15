@@ -6,8 +6,8 @@
     {# TODO: Rendre interdit le clic droit pour télécharger la vidéo #}
     <div class="container">
         <h1>{{ video.title }}</h1>
-        <p>Crée le {{ video.createdAt ? video.createdAt|date('Y-m-d H:i:s') : '' }}</p>
-        <video controls width="100%">
+        <p>Crée le {{ video.createdAt ? video.createdAt|date('Y-m-d H:i:s') : '' }} | <a href="{{path('video_category', {'category' :  video.category.id})}}">{{video.category}}</a></p>
+        <video controls contextmenu="return false;" oncontextmenu="return false;" width="100%">
             <source src="{{chemin_video}}/{{video.path}}" type="video/mp4">
         </video>
         {{ video.content|raw }}
@@ -19,6 +19,23 @@
                 {{ include('video/_delete_form.html.twig') }}
             {% endif %}
         </div>
+        <hr>
+        {% for comment in video.comments %}
+            <div class="row mb-3">
+                <div class="col-3">
+                    {# TODO: Ajouter une photo du chien pour l'utilisateur #}
+                    <img src="http://placehold.it/100x100" alt="">
+                    <br>
+                    {{comment.author}}
+                    <br>
+                    {{comment.createdAt|date(' H:i:s d-m-Y')}}
+                </div>
+                <div class="col-9">
+                    {{comment.content}}
+                </div>
+            </div>
+        {% endfor %}
+        {% include "comment/_form.html.twig" %}
     </div>
 
 {% endblock %}

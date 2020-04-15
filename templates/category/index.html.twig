@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Catégorie disponible sur le Domaine de Saint-Roch{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Catégorie disponible sur le Domaine de Saint-Roch</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Catégorie</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for category in categories %}
+                <tr>
+                    <td><a href="{{path('category_show', {'id': category.id})}}">{{ category.id }}</a></td>
+                    <td><a href="{{path('category_show', {'id': category.id})}}">{{ category.title }}</a></td>
+                    <td>
+                        <a href="{{ path('category_edit', {'id': category.id}) }}">Modifier</a>
+                        <a class="text-danger" href="{{ path('category_delete', {'id': category.id}) }}">Supprimer</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3">Pas de catégorie trouvé</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <a href="{{ path('category_new') }}"><button type="button" class="btn btn-success mr-1 mb-3">Créer une nouvelle catégorie</button></a>
+    </div>
+{% endblock %}

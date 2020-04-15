@@ -5,28 +5,45 @@
 {% block body %}
     <div class="container mt-2">
         <h1>Les vidéos du Domaine de Saint-Roch</h1>
-        {# TODO: Créer du texte d'explication #}
-        <p>Nam ut irure incididunt libero fuga, curabitur. Curabitur odit pariatur. 
-        Aliquip iure sint at quibusdam! Molestiae, tortor anim viverra maiores auctor voluptate
-        s expedita recusandae? Elit dolorem! Culpa eaque sint incididunt sociosqu diam laboris. 
-        Dignissimos venenatis laoreet, blanditiis nibh sapien! Ornare sollicitudin adipisicing sc
-        elerisque odio, rhoncus, modi diamlorem adipisicing! Mauris sint repellendus, augue orci co
-        ngue dolorum netus egestas vestibulum condimentum ac, dignissim penatibus dignissimos eget 
-        eiusmod minim diamlorem laboriosam, mus ratione nobis condimentum velit mauris porttitor p
-        er sollicitudin rhoncus magni egestas curae irure faucibus accusamus. Consectetuer neque pa
-        riatur atque elementum hendrerit, autem lacus incididunt vel! Inceptos class, sodales provident cupidatat excepturi.</p>
+        <div class="row headerVideo">
+            <div class="col">
+                <video contextmenu="return false;" oncontextmenu="return false;" controls width="100%">
+                    <source src="{{chemin_video}}/jimmy.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div class="col">
+                {# TODO: Créer du texte d'explication #}
+                <p>Nam ut irure incididunt libero fuga, curabitur. Curabitur odit pariatur. 
+                Aliquip iure sint at quibusdam! Molestiae, tortor anim viverra maiores auctor voluptate
+                s expedita recusandae? Elit dolorem! Culpa eaque sint incididunt sociosqu diam laboris. 
+                Dignissimos venenatis laoreet, blanditiis nibh sapien! Ornare sollicitudin adipisicing sc
+                elerisque odio, rhoncus, modi diamlorem adipisicing! Mauris sint repellendus, augue orci co
+                ngue dolorum netus egestas vestibulum condimentum ac, dignissim penatibus dignissimos eget 
+                eiusmod minim diamlorem laboriosam, mus ratione nobis condimentum velit mauris porttitor p
+                er sollicitudin rhoncus magni egestas curae irure faucibus accusamus. Consectetuer neque pa
+                riatur atque elementum hendrerit, autem lacus incididunt vel! Inceptos class, sodales provident cupidatat excepturi.</p>
+            </div>
+        </div>
+        <hr>
         
         {# TODO: Faire le template de visualitation des vidéos #}
-
+        <div class="category mb-3">
+            {% for category in categories %}
+                <a href="{{ path('video_category', {'category' : category.id})}}">
+                    <span class="badge badge-success">{{category|u.truncate(50, '...')}}</span>
+                </a>
+            {% endfor %}
+        </div>
+        
         <div class="video">
             {% for video in videos %}
                 <a href="{{path('video_show', {'id' : video.id})}}">
                 <div class="card mb-3">
                     <div class="card-body">
                         <h5 class="card-title">{{ video.title|u.truncate(20, '...') }}</h5>
-                        {# <h6 class="card-subtitle text-muted">{{video.category}} | {{ad.price}} €</h6> #}
+                        <h6 class="card-subtitle text-muted">{{video.category}}</h6>
                     </div>
-                      <video width="100%">
+                    <video width="100%">
                         <source src="{{chemin_video}}/{{video.path}}" type="video/mp4">
                     </video>
                     {# <img style="height: 200px; width: 100%; display: block;" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22318%22%20height%3D%22180%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20318%20180%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_158bd1d28ef%20text%20%7B%20fill%3Argba(255%2C255%2C255%2C.75)%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A16pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_158bd1d28ef%22%3E%3Crect%20width%3D%22318%22%20height%3D%22180%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22129.359375%22%20y%3D%2297.35%22%3EImage%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" alt="Card image"> #}

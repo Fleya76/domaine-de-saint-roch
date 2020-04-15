@@ -52,7 +52,7 @@ class Notification extends AbstractController
 
         return count($this->messageRepository->findBy(['messageRead' => '0']));
         // return count($this->messageRepository->findBy(['messageRead' => '0']));
-        return 2;
+        // return 2;
     }
 
 

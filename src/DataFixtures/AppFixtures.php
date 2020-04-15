@@ -9,9 +9,11 @@ use App\Entity\User;
 use App\Entity\Place;
 use App\Entity\Video;
 use App\Entity\Booking;
+use App\Entity\Comment;
 use App\Entity\Message;
 use App\Entity\Category;
 use App\Entity\Contract;
+use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -81,14 +83,6 @@ class AppFixtures extends Fixture
         $place3->setTitle('Extérieure');
         $manager->persist($place3);
 
-        for ($v=0; $v < 20; $v++) { 
-            $video = new Video();
-            $video->setTitle($faker->sentence($nbWords = 6, $variableNbWords = true))
-                ->setPath("5e94c0380e29c.mp4")
-                ->setCreatedAt($faker->dateTimeBetween('-3 months'))
-                ->setContent($faker->paragraph($nbSentences = 3, $variableNbSentences = true));
-            $manager->persist($video);
-        }
         for ($e=0; $e < 70; $e++) { 
             $booking = new Booking();
             $booking->setTitle($faker->sentence($nbWords = 6, $variableNbWords = true))
@@ -166,8 +160,36 @@ class AppFixtures extends Fixture
                 $manager->persist($message);
             }
         }
+        for ($v=0; $v < 20; $v++) { 
+            $video = new Video();
+            $video->setTitle($faker->sentence($nbWords = 6, $variableNbWords = true))
+                ->setPath("5e94c0380e29c.mp4")
+                ->setCreatedAt($faker->dateTimeBetween('-3 months'))
+                ->setContent($faker->paragraph($nbSentences = 3, $variableNbSentences = true));
 
-       
+                if($v>=20){
+                    $video->setCategory($category1);
+                }elseif($v>=15) {
+                    $video->setCategory($category2);
+                }elseif($v>=10) {
+                    $video->setCategory($category3);
+                }elseif($v>=5) {
+                    $video->setCategory($category4);
+                }else{
+                    $video->setCategory($category5);
+                }
+            $manager->persist($video);
+            for ($c=0; $c < 3; $c++) { 
+                $comment = new Comment();
+                $comment->setAuthor($user)
+                     ->setVideo($video)
+                     ->setCreatedAt(new DateTime())
+                     ->setContent($faker->paragraph($nbSentences = 1, $variableNbSentences = true));
+                $manager->persist($comment);
+    
+             }
+        }
+
         $manager->flush();
     }
 }

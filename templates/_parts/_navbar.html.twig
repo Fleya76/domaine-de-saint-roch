@@ -63,7 +63,9 @@
                         {# TODO: Faire les badges de compte à valider + tableau de validation de compte#}
                         <a class="dropdown-item" href="{{ path("user_validation") }}">Les profils en attentent de validation <span class="badge badge-success">{{notification.getUsersCountNotValide()}}</span></a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{{ path("message_index") }}">Mes messages <span class="badge badge-info">{{notification.getMessageCount()}}</a>
+                        <a class="dropdown-item" href="{{ path("message_index") }}">Mes messages <span class="badge badge-info">{{notification.getMessageCount()}}</span></a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{{ path("category_index") }}">Les catégories</a>
                         {# TODO: Faire les badges de message #}
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ path("user_show", {'id': app.user.id}) }}">Mon profil</a>

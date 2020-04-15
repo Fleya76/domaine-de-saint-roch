@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier la catégorie {{category.title}}{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Modifier la catégorie {{category.title}}</h1>
+        {{ include('category/_form.html.twig') }}
+    </div>
+{% endblock %}

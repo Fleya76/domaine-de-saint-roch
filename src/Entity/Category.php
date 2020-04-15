@@ -28,9 +28,15 @@ class Category
      */
     private $bookings;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Video", mappedBy="category")
+     */
+    private $videos;
+
     public function __construct()
     {
         $this->bookings = new ArrayCollection();
+        $this->videos = new ArrayCollection();
     }
     public function __toString()
     {
@@ -78,6 +84,37 @@ class Category
             // set the owning side to null (unless already changed)
             if ($booking->getCategory() === $this) {
                 $booking->setCategory(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Video[]
+     */
+    public function getVideos(): Collection
+    {
+        return $this->videos;
+    }
+
+    public function addVideo(Video $video): self
+    {
+        if (!$this->videos->contains($video)) {
+            $this->videos[] = $video;
+            $video->setCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVideo(Video $video): self
+    {
+        if ($this->videos->contains($video)) {
+            $this->videos->removeElement($video);
+            // set the owning side to null (unless already changed)
+            if ($video->getCategory() === $this) {
+                $video->setCategory(null);
             }
         }
 

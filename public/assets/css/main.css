@@ -39,6 +39,9 @@ td a {
         padding: 0em!important;
         vertical-align: inherit!important;
     }
+    .headerVideo{
+        display: block!important;
+    }
 }
 
 .card {
@@ -94,11 +97,12 @@ width: 300;
 }
 
 @media screen and (min-width: 800px) {
-.video{
-    flex-wrap: wrap;
-    display: flex;
-    justify-content: space-between;
-}
+    .video{
+        flex-wrap: wrap;
+        display: flex;
+        justify-content: space-between;
+    }
+
 }
 .video{
     flex-wrap: wrap;
