@@ -2,11 +2,12 @@
 
 namespace App\Controller;
 
-use App\Entity\Message;
 use DateTime;
 use App\Entity\User;
+use App\Entity\Message;
 use App\Form\MessageType;
 use App\Form\UpdateUserType;
+use App\Service\FileUploader;
 use App\Form\RegistrationType;
 use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -102,15 +103,31 @@ class UserController extends AbstractController
      * @Route("/{id}/edit", name="user_edit", methods={"GET","POST"})
      * @Security("user===userConnect and is_granted('ROLE_SUBSCRIBER') or is_granted('ROLE_ADMIN')", statusCode=499,message="Vou devez être connecté et être propriétaire du profil pour le modifier ou supprimer")
      */
-    public function edit(Request $request, User $userConnect): Response
+    public function edit(Request $request, User $userConnect, FileUploader $fileUploader): Response
     {
         $form = $this->createForm(UpdateUserType::class, $userConnect);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            
+            $file=$form['image']->getData();           
+            if($file){
+                $res=$fileUploader->upload($file);
+                if(is_string($res)){
+                    $userConnect->setImage($res);
+                }else{
+                    $message=$res->getMessage();
+                    $userConnect->setImage('');
+                }
+            }else{
+                $userConnect->setImage(''); 
+            }
+
             $this->getDoctrine()->getManager()->flush();
             $this->addFlash('success', $userConnect->getFirstName() . ' ' . $userConnect->getLastName() . ' à bien été modifié.');
-            return $this->redirectToRoute('user_index');
+            return $this->redirectToRoute('user_show', [
+                'id' => $userConnect->getId()
+            ]);
         }
 
         return $this->render('user/edit.html.twig', [

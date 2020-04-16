@@ -22,9 +22,7 @@ td a {
 #user_contract{
     display: none!important;
 }
-.actionButton{
-    display: flex;
-}
+
 @media screen and (max-width: 767px) {
     .fc-toolbar{
         display: block!important;
@@ -102,7 +100,9 @@ width: 300;
         display: flex;
         justify-content: space-between;
     }
-
+    .actionButton{
+        display: flex;
+    }
 }
 .video{
     flex-wrap: wrap;

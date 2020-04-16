@@ -32,7 +32,7 @@ class MessageController extends AbstractController
 
     /**
      * @Route("/{id}/new", name="message_new", methods={"GET","POST"})
-     *  @Security("is_granted('IS_AUTHENTICATED_FULLY')")
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
      */
     public function new(Request $request, User $user, \Swift_Mailer $mailer): Response
     {

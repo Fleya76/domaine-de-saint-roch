@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier le chien {{dog.name}}{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Modifier le chien {{dog.name}}</h1>
+        {{ include('dog/_form.html.twig') }}
+    </div>
+{% endblock %}

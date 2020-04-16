@@ -3,13 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Events\RegistrationEvent;
+use App\Service\FileUploader;
 use App\Form\RegistrationType;
+use App\Events\RegistrationEvent;
 use App\Security\LoginFormAuthenticator;
-use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,7 +21,7 @@ class RegistrationController extends AbstractController
     /**
      * @Route("/register", name="app_register")
      */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, LoginFormAuthenticator $authenticator, EventDispatcherInterface $eventDispatcher): Response
+    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, LoginFormAuthenticator $authenticator, FileUploader $fileUploader, EventDispatcherInterface $eventDispatcher): Response
     {
         
         $user = new User();
@@ -36,6 +37,21 @@ class RegistrationController extends AbstractController
                     $form->get('password')->getData()
                 )
             );
+
+            $file=$form['image']->getData();           
+            if($file){
+                $res=$fileUploader->upload($file);
+                if(is_string($res)){
+                    $user->setImage($res);
+                }else{
+                    $message=$res->getMessage();
+                    $user->setImage('');
+                }
+            }else{
+                $user->setImage(''); 
+            }
+            
+
             $user->setValidation(false);
             // $user->addDog($dog);
             // $user->addDog($user->getDog());

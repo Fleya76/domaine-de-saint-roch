@@ -6,12 +6,12 @@
     <div class="container mt-5">
         <h1>Modifier le profil</h1>
         {% if app.user == user or  is_granted('ROLE_ADMIN') %}
-        {{ include('user/_update_user.html.twig', {'button_label': 'Update'}) }}
+            {{ include('user/_update_user.html.twig', {'button_label': 'Update'}) }}
         {% else %}
             <p>Vous devez être propriétaire du profil pour le modifier</p>
         {% endif %}
         {# TODO: Faire un formulaire pour modifier la date de début et de fin du contrat pour les admins #}
-
+        {# TODO: Modification du mot de passe #}
         {% if is_granted('ROLE_ADMIN') %}
             <a href="{{ path('user_index') }}">Retourner à la liste</a>
             {{ include('user/_delete_form.html.twig', {'redirection' : 'user_index'}) }}

@@ -123,6 +123,7 @@ class AppFixtures extends Fixture
                     ->setFirstName($faker->firstNameMale())
                     ->setPhone($faker->phoneNumber())
                     ->setAddress($faker->streetAddress())
+                    ->setImage('jimmy.png')
                     ->setPostalCode(14100)
                     ->setCity($faker->city())
                     ->setPassword($this->encoder->encodePassword($user,'admin76'))

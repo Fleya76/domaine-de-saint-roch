@@ -17,11 +17,12 @@
                     <td><a href="{{ path('user_show', {'id': user.id}) }}">{{ user.id }}</a></td>
                     <td><a href="{{ path('user_show', {'id': user.id}) }}">{{ user.firstName }}</a></td>
                     <td><a href="{{ path('user_show', {'id': user.id}) }}">{{ user.lastName }}</a></td>
-      
-                    {% for dog in user.dog %}
-                        <td><a href="{{ path('user_show', {'id': user.id}) }}">{{ dog }}</a></td>
-                    {% endfor %}                   
-     
+                    <td>
+                        {% for dog in user.dog %}
+                            <a href="{{ path('user_show', {'id': user.id}) }}">{{ dog }}</a>
+                            <br>
+                        {% endfor %}                   
+                    </td>
                     
                     <td>
                         {% for contract in user.contract %}

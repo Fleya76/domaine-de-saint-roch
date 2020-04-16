@@ -124,11 +124,14 @@ class VideoController extends AbstractController
         $comment = new Comment();
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
+
         // TODO: Envoie de notif par mail à Jimmy
         if ($form->isSubmitted() && $form->isValid()) {
             $comment->setAuthor($user)
                 ->setCreatedAt(new DateTime())
                 ->setVideo($video);
+
+                
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($comment);
             $entityManager->flush();
@@ -146,12 +149,23 @@ class VideoController extends AbstractController
      * @Route("/{id}/edit", name="video_edit", methods={"GET","POST"})
      * @Security("is_granted('ROLE_ADMIN')")
      */
-    public function edit(Request $request, Video $video): Response
+    public function edit(Request $request, Video $video, FileUploader $fileUploader): Response
     {
         $form = $this->createForm(VideoType::class, $video);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $file = $form['path']->getData();           
+            if($file){
+                $res = $fileUploader->upload($file);
+                if(is_string($res)){
+                    // $article->setImage($res);
+                    $video->setPath($res);
+
+                }
+            }
+
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('video_index');
@@ -182,6 +196,25 @@ class VideoController extends AbstractController
 
         return $this->redirectToRoute('video_index');
     }
+
+    /**
+     * @Route("/{video}/comment/delete/{comment}", name="comment_delete")
+     * @Security("is_granted('ROLE_ADMIN')")
+     */
+    public function deleteComment(Request $request, Video $video, Comment $comment): Response
+    {
+        $this->addFlash('warning', 'Le commentaire a bien été supprimé');
+ 
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $entityManager->remove($comment);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('video_show', [
+            'id' => $video->getId()
+        ]);
+    }
+
 
 
 }

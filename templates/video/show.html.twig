@@ -8,7 +8,7 @@
         <h1>{{ video.title }}</h1>
         <p>Crée le {{ video.createdAt ? video.createdAt|date('Y-m-d H:i:s') : '' }} | <a href="{{path('video_category', {'category' :  video.category.id})}}">{{video.category}}</a></p>
         <video controls contextmenu="return false;" oncontextmenu="return false;" width="100%">
-            <source src="{{chemin_video}}/{{video.path}}" type="video/mp4">
+            <source src="{{chemin}}/{{video.path}}" type="video/mp4">
         </video>
         {{ video.content|raw }}
 
@@ -19,21 +19,34 @@
                 {{ include('video/_delete_form.html.twig') }}
             {% endif %}
         </div>
-        <hr>
+        
         {% for comment in video.comments %}
+            <hr>
             <div class="row mb-3">
-                <div class="col-3">
-                    {# TODO: Ajouter une photo du chien pour l'utilisateur #}
-                    <img src="http://placehold.it/100x100" alt="">
-                    <br>
-                    {{comment.author}}
-                    <br>
-                    {{comment.createdAt|date(' H:i:s d-m-Y')}}
+                <div class="col-2">
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a href="{{path('user_show', {'id' : comment.author.id})}}">
+                    {% endif %}
+                        {# TODO: Ajouter une photo du chien pour l'utilisateur #}
+                        <img width=100% src="{{chemin}}/{{comment.author.image}}" alt="Image de l'utilisateur" onerror="this.src='/images/inconnu.png';">
+                        <br>
+                        {{comment.author}}
+                        <br>
+                        {{comment.createdAt|date(' H:i:s d-m-Y')}}
+                    {% if is_granted('ROLE_ADMIN') %}
+                        </a>
+                    {% endif %}
                 </div>
-                <div class="col-9">
+               
+                <div class="col-10">
                     {{comment.content}}
+                    <br>
+                    {% if comment.author == app.user or is_granted('ROLE_ADMIN') %}
+                        <a href="{{path('comment_delete', {'video' : video.id,'comment' : comment.id})}}">Supprimer le commentaire</a>
+                    {% endif %}
                 </div>
             </div>
+            {# TODO : Supprimer son commentaire  #}
         {% endfor %}
         {% include "comment/_form.html.twig" %}
     </div>

@@ -137,7 +137,7 @@ class BookingController extends AbstractController
             <h1>Bonjour " . $user . "</h1>
             Vous vous êtes inscrit pour l'événement suivant : " . $booking->getTitle() . "
             <br>
-            <br>Pour vous désinscrire  : ". $lien ."
+            <br>Pour voir mes prochains cours  : ". $lien ."
             <br>
             <br>
             L'équipe du Domaine de Saint-Roch.

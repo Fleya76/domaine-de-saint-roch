@@ -10,15 +10,17 @@ use App\Form\ContractType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 class RegistrationType extends AbstractType
 {
@@ -75,6 +77,23 @@ class RegistrationType extends AbstractType
                 'by_reference' => false,
                 'allow_delete' => true,
                 'delete_empty' => true,
+            ])
+            ->add('image', FileType::class, [
+                'mapped' => false,
+                'label' => 'Télécharger une image de votre chien',
+                'required' => false,
+                // Les champs non mappés ne peuvent pas utiliser les annotations pour les validations
+                // dans les entités associées, nous devons donc utiliser des contraintes de classe
+                // en utilisant le composant  Symfony\Component\Validator\Constraints\File;
+                'constraints' => [
+                    new File([
+                        'maxSize' => '5M',
+                        'mimeTypes' => [
+                            'image/jpeg'
+                        ],
+                        'mimeTypesMessage' => 'SVP Uploadez un fichier JPEG valide',
+                    ])
+                ],
             ])
         ;
     }

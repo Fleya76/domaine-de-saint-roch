@@ -1,0 +1,5 @@
+<form method="post" action="{{ path('dog_delete', {'userConnect' : app.user.id,'id': dog.id}) }}" onsubmit="return confirm('Voulez-vous vraiment supprimer cet élément ?');">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ dog.id) }}">
+    <button class="btn btn-danger">Supprimer ce chien</button>
+</form>

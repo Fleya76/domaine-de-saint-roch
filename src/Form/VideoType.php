@@ -3,8 +3,10 @@
 namespace App\Form;
 
 use App\Entity\Video;
+use App\Entity\Category;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -21,6 +23,7 @@ class VideoType extends AbstractType
             ])
             ->add('path', FileType::class, [
                 'label' => 'Télécharger la vidéo sur le serveur',
+                'data_class' => null,
                 'constraints' => [
                     new File([
                         'maxSize' => '100M',
@@ -30,6 +33,12 @@ class VideoType extends AbstractType
                         'mimeTypesMessage' => 'SVP Uploadez un fichier MP4 valide',
                     ])
                 ],
+            ])
+            ->add('category',EntityType::class,[
+                'class'=>Category::class,
+                'label' => 'Le type d\'événement',
+                'choice_label' => 'title',
+                'placeholder' => 'Choix de la catégorie',
             ])
             // ->add('createdAt')
             ->add('content', TextareaType::class, [
