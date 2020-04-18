@@ -25,6 +25,8 @@ class MessageController extends AbstractController
      */
     public function index(MessageRepository $messageRepository): Response
     {
+        // TODO : Ajouter une pagination
+
         return $this->render('message/index.html.twig', [
             'messages' => array_reverse($messageRepository->findAll()),
         ]);

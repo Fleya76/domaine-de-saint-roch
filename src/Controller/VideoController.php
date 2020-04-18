@@ -35,6 +35,9 @@ class VideoController extends AbstractController
      */
     public function index(VideoRepository $videoRepository, CategoryRepository $categoryRepository): Response
     {
+        // TODO : Ajouter une pagination
+
+
         return $this->render('video/videos.html.twig', [
             'videos' => array_reverse($videoRepository->findAll()),
             'categories' => $categoryRepository->findAll(),
@@ -47,6 +50,8 @@ class VideoController extends AbstractController
      */
     public function getVideoByCategory(VideoRepository $videoRepository, CategoryRepository $categoryRepository, Category $category): Response
     {
+        // TODO : Ajouter une pagination
+
         return $this->render('video/videos.html.twig', [
             'videos' => array_reverse($videoRepository->findBy(['category' => $category])),
             'categories' => $categoryRepository->findAll(),
@@ -59,6 +64,8 @@ class VideoController extends AbstractController
      */
     public function overview(VideoRepository $videoRepository): Response
     {
+        // TODO : Ajouter une pagination
+
         return $this->render('video/overview.html.twig', [
             'videos' => array_reverse($videoRepository->findAll()),
         ]);
@@ -186,7 +193,7 @@ class VideoController extends AbstractController
     public function delete(Request $request, Video $video): Response
     {
         $this->addFlash('warning', 'La vidéo a bien été supprimé');
- 
+        // TODO: Supprimer les vidéos dans le dossier public
         $entityManager = $this->getDoctrine()->getManager();
         foreach($video->getComments() as $comment){
             $entityManager->remove($comment);
@@ -206,7 +213,7 @@ class VideoController extends AbstractController
         $this->addFlash('warning', 'Le commentaire a bien été supprimé');
  
         $entityManager = $this->getDoctrine()->getManager();
-
+  
         $entityManager->remove($comment);
         $entityManager->flush();
 

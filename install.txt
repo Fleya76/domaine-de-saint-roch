@@ -1,0 +1,20 @@
+Faire pointer le projet dans le public
+
+Configurer les paramètres BDD et les paramètres de mail dans le fichier .env
+
+Vider les caches 
+Passer en prod
+
+Ouvrir une CMD
+
+composer install
+npm install
+npm update
+
+php bin/console doctrine:database:create
+php bin/console doctrine:migrations:migrate
+php bin/console doctrine:fixtures:load
+
+symfony server:start
+
+

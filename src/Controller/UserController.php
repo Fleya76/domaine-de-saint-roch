@@ -10,6 +10,7 @@ use App\Form\UpdateUserType;
 use App\Service\FileUploader;
 use App\Form\RegistrationType;
 use App\Repository\UserRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -26,10 +27,22 @@ class UserController extends AbstractController
      * @Route("/", name="user_index", methods={"GET"})
      * @Security("is_granted('ROLE_ADMIN')")
      */
-    public function index(UserRepository $userRepository): Response
+    public function index(UserRepository $userRepository, PaginatorInterface $paginator): Response
     {
+        // $limitPerPage = 10;
+        // $users =  $userRepository->findBy(['validation' => '1']);
+        // dump(ceil(count($users) / $limitPerPage));
+        // $pagination = $paginator->paginate(
+        //     $users, 
+        //     // count($users / $limitPerPage), /*page number*/
+        //     // ceil(count($users) / $limitPerPage),
+        //     // count($users) / $limitPerPage,
+        //     1,
+        //     $limitPerPage /*limit per page*/
+        // );
+        // TODO : Ajouter une pagination
         return $this->render('user/overview.html.twig', [
-            'users' => $userRepository->findBy(['validation' => '1']),
+            'users' => array_reverse($userRepository->findBy(['validation' => '1'])),
             'dateTime' => new DateTime()
         ]);
     }
@@ -40,6 +53,9 @@ class UserController extends AbstractController
      */
     public function validationView(UserRepository $userRepository)
     {    
+        // TODO : Ajouter une pagination
+
+        
         return $this->render('user/validation.html.twig', [
             'dateTime' => new DateTime(),
             'users' => $userRepository->findBy(['validation' => '0'])
