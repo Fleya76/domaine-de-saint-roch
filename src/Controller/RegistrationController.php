@@ -53,8 +53,7 @@ class RegistrationController extends AbstractController
             
 
             $user->setValidation(false);
-            // $user->addDog($dog);
-            // $user->addDog($user->getDog());
+
             $user->setRoles(["ROLE_USER", "ROLE_NOT_SUBSCRIBER"]);
 
             $entityManager = $this->getDoctrine()->getManager();
@@ -65,12 +64,15 @@ class RegistrationController extends AbstractController
             $eventDispatcher->dispatch( new RegistrationEvent($user));
             // do anything else you need here, like send an email
 
-            return $guardHandler->authenticateUserAndHandleSuccess(
-                $user,
-                $request,
-                $authenticator,
-                'main' // firewall name in security.yaml
-            );
+            return $this->redirectToRoute('video_index');
+            
+            // TODO: Décommenter cela après la mise en ligne du site
+            // return $guardHandler->authenticateUserAndHandleSuccess(
+            //     $user,
+            //     $request,
+            //     $authenticator,
+            //     'main' // firewall name in security.yaml
+            // );
         }
 
         return $this->render('registration/register.html.twig', [

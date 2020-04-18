@@ -38,13 +38,13 @@ class Notification extends AbstractController
         //     if ($dateTime < $contract->getEndAt()) {
         //         if($dateTime > $contract->getEndAt()->sub(new DateInterval('P1M')))
         //         {
-        //             dump($contract->getEndAt());
+        //  
         //             array_push($endContracts, $contract);
         //         }
         //     }
         // }
         // return count($endContracts);
-        return 2;
+        // return 2;
     }
     public function getMessageCount()
     {

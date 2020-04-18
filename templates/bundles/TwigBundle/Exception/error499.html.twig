@@ -1,9 +1,13 @@
-{# templates/bundles/TwigBundle/Exception/error499.html.twig #}
+{# templates/bundles/TwigBundle/Exception/error403.html.twig#}
 {% extends 'base.html.twig' %}
-{% block title %}Erreur{% endblock %}
+{% block title %}Domaine de Saint-Roch | Erreur 409{% endblock %}
 {% block body %}
-    <h3 class="text-center">SECURITE</h3>
-	<div class="text-center"  > 
-        {{ exception.message }}  
+    <div class="container text-center">
+        <h3>Vous n'êtes pas encore autorisé à consulter cette page</h3>
+        <img src="/images/Logo-DSR.png" alt="Logo du domaine">
+        <div> 
+            {{ exception.message }}  
+        </div>
     </div>
+
 {% endblock %}

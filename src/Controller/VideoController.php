@@ -31,7 +31,7 @@ class VideoController extends AbstractController
 
     /**
      * @Route("/", name="video_index", methods={"GET"})
-     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY')", message="Vous devez être identifié et validé par l'administration pour voir les prochains cours.")
      */
     public function index(VideoRepository $videoRepository, CategoryRepository $categoryRepository): Response
     {
@@ -43,7 +43,7 @@ class VideoController extends AbstractController
 
     /**
      * @Route("/category/{category}", name="video_category", methods={"GET"})
-     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_SUBSCRIBER')", message="Vous devez être identifié et validé par l'administration pour voir les prochains cours.")
      */
     public function getVideoByCategory(VideoRepository $videoRepository, CategoryRepository $categoryRepository, Category $category): Response
     {
@@ -115,7 +115,7 @@ class VideoController extends AbstractController
 
     /**
      * @Route("/{id}", name="video_show")
-     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_SUBSCRIBER')", message="Vous devez être identifié et validé par l'administration pour voir les prochains cours.")
      */
     public function show(Video $video, Request $request): Response
     {

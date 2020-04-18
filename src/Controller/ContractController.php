@@ -37,6 +37,7 @@ class ContractController extends AbstractController
     public function index(ContractRepository $contractRepository): Response
     {
         //TODO : Code fonctionnel cependant pas optimisé. Trop long à charger
+        //TODO: Prévoir un système de cron pour empêcher que les gens n'ayant plus de contrat ai le role subscriber
         $contracts = $contractRepository->findAll();
         $endContracts = [];
         $dateTime = new DateTime();
@@ -44,7 +45,7 @@ class ContractController extends AbstractController
             if ($dateTime < $contract->getEndAt()) {
                 if($dateTime > $contract->getEndAt()->sub(new DateInterval('P1M')))
                 {
-                    // dump($contract->getEndAt());
+
                     array_push($endContracts, $contract);
                 }
             }

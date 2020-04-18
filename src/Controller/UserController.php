@@ -57,19 +57,19 @@ class UserController extends AbstractController
         $user->setValidation(1);
         $user->setRoles(["ROLE_USER", "ROLE_SUBSCRIBER"]);
 
-        $href = $this->generateUrl('booking_index', [
+        $href = $this->generateUrl('video_index', [
           ], UrlGeneratorInterface::ABSOLUTE_URL);
   
-        $lien='<br><a href="'.$href.'">Afficher le calendrier du Domaine de Saint-Roch</a>';
+        $lien='<br><a href="'.$href.'">Domaine de Saint-Roch</a>';
         //Envoi du message
         $message = new \Swift_Message('Jimmy GRESSENT à validé votre profil');
         $message->setFrom('admin.blog@email.fr');
         $message->setTo([$user->getEmail() => 'Utilisateur']);
         $message->setBody("
             <h1>Bonjour " . $user . "</h1>
-            Vous pouvez dès maintenant consulter l'ensemble des cours dispensé par le Domaine de Saint-Roch.
+            Vous pouvez dès maintenant consulter l'ensemble des cours proposé par le Domaine de Saint-Roch.
             <br>
-            <br>Lien vers le calendrier : ". $lien ."
+            <br>Lien vers les vidéos : ". $lien ."
             
             ",
             'text/html'
@@ -101,7 +101,7 @@ class UserController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="user_edit", methods={"GET","POST"})
-     * @Security("user===userConnect and is_granted('ROLE_SUBSCRIBER') or is_granted('ROLE_ADMIN')", statusCode=499,message="Vou devez être connecté et être propriétaire du profil pour le modifier ou supprimer")
+     * @Security("user===userConnect or is_granted('ROLE_ADMIN')", statusCode=499,message="Vous devez être connecté et être propriétaire du profil pour le modifier ou supprimer.")
      */
     public function edit(Request $request, User $userConnect, FileUploader $fileUploader): Response
     {

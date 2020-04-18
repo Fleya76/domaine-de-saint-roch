@@ -46,20 +46,18 @@ class MessageController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $message->setSendAt(new \DateTime())
                 ->setAuthor($user)
-                ->setMessageRead(false)
-                ->setSubject('Demande de rendez-vous individuel');
+                ->setMessageRead(false);
+                // ->setSubject('Demande de rendez-vous individuel');
                 // ->setDog($user->getDog());
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($message);
             $entityManager->flush();
 
             $mail_admin=Fonctions::getEnv('mail_admin');
+            // $mail_admin="jimmy.gressant@gmail.com";
 
-            $href = $this->generateUrl('booking_by_user', [
-                'id' => $user->getId()
-            ], UrlGeneratorInterface::ABSOLUTE_URL);
-    
-            $lien='<br><a href="'.$href.'">Afficher mes prochains cours du Domaine de Saint-Roch</a>';
+
+            $lien='<br><a href="mailto:'.$user->getEmail().'">Répondre à ce message</a>';
             //Envoi du message
 
             // TODO: Ajouter un lien pour répondre
@@ -77,7 +75,10 @@ class MessageController extends AbstractController
                 <br>
                 <br>
                 " . $message->getAuthor() . "
-                ",
+                <br>
+                <br>
+                ". $lien ."
+                ", 
                 'text/html'
             );
             try {
@@ -88,7 +89,9 @@ class MessageController extends AbstractController
             }
             $this->addFlash('success', 'Votre demande à bien été prise en compte, un éducateur vous recontactera');
             // TODO: Envoie d'une notif par mail à l'admin
-            return $this->redirectToRoute('booking_index');
+            return $this->redirectToRoute('video_index');
+            // TODO: Changer la route à l'intégration du calendrier
+            // return $this->redirectToRoute('booking_index');
         }
 
         return $this->render('message/new.html.twig', [

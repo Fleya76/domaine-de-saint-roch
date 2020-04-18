@@ -19,7 +19,7 @@ class BookingController extends AbstractController
 {   
     /**
      * @Route("/booking", name="booking_index", methods={"GET"})
-     * @Security("is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_SUBSCRIBER')", message="Vous devez être identifier et valider par l'administration pour voir les prochains cours")
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_SUBSCRIBER')", message="Vous devez être identifié et validé par l'administration pour voir les prochains cours.")
      */
     public function index(BookingRepository $bookingRepository): Response
     {
@@ -66,11 +66,11 @@ class BookingController extends AbstractController
 
     /**
      * @Route("/booking/{id}", name="booking_show", methods={"GET"})
-     *  @Security("is_granted('IS_AUTHENTICATED_FULLY')")
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_SUBSCRIBER')", message="Vous devez être identifié et validé par l'administration pour voir les prochains cours.")
      */
     public function show(Booking $booking): Response
     {
-        // dump($booking);
+   
         return $this->render('booking/show.html.twig', [
             'booking' => $booking,
             'dateTime' => new DateTime()
@@ -115,13 +115,14 @@ class BookingController extends AbstractController
 
     /**
      * @Route("/booking/{id}/{user}", name="booking_reservation")
-     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY') and is_granted('ROLE_SUBSCRIBER')", message="Vous devez être identifié et validé par l'administration pour voir les prochains cours.")
      */
     public function reservation(Booking $booking, User $user, \Swift_Mailer $mailer)
     {
         $entityManager = $this->getDoctrine()->getManager();
         $booking->addUser($user);
 
+        // $mail_admin="jimmy.gressant@gmail.com";
         $mail_admin=Fonctions::getEnv('mail_admin');
 
         $href = $this->generateUrl('booking_by_user', [
@@ -158,7 +159,7 @@ class BookingController extends AbstractController
 
     /**
      * @Route("/{id}/booking/reservation", name="booking_by_user", methods={"GET"})
-     * @Security("user===userConnect and is_granted('ROLE_SUBSCRIBER') or is_granted('ROLE_ADMIN')", message="Vous devez être identifier et valider par l'administration pour voir les prochains cours")
+     * @Security("user===userConnect and is_granted('ROLE_SUBSCRIBER') or is_granted('ROLE_ADMIN')", message="Vous devez être identifié et validé par l'administration pour voir les prochains cours.")
      */
     public function bookingFindByUser(User $userConnect): Response
     {
@@ -170,7 +171,7 @@ class BookingController extends AbstractController
 
     /**
      * @Route("/{id}/booking/{userConnect}/remove", name="booking_remove_user", methods={"GET"})
-     * @Security("user===userConnect and is_granted('ROLE_SUBSCRIBER')", message="Vous devez être identifier et valider par l'administration pour voir les prochains cours")
+     * @Security("user===userConnect and is_granted('ROLE_SUBSCRIBER')", message="Vous devez être identifié et validé par l'administration pour voir les prochains cours.")
      */
     public function bookingRemoveByUser(User $userConnect, Booking $booking): Response
     {

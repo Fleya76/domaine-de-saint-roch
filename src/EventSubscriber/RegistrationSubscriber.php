@@ -42,7 +42,8 @@ class RegistrationSubscriber implements EventSubscriberInterface
         $lien='<br><a href="'.$href1.'">
                     Validation du compte
                 </a>
-                <br><a href="'.$href2.'">
+                <br><br>
+                <a href="'.$href2.'">
                     Suppression du compte
                 </a>';
         ///////////////////////////////////////////////////////////////
@@ -50,8 +51,10 @@ class RegistrationSubscriber implements EventSubscriberInterface
         //Envoi du message
         $message = new \Swift_Message('Un utilisateur est en attente de validation');
         $message ->setFrom($mail_admin);
-        $message ->setTo(['admin.blog@email.fr'=> 'admin']);
+        $message ->setTo([$mail_admin=> 'Administrateur']);
         $message ->setBody("
+                    <h3>Bonjour Jimmy</h3>
+                    <p>Pour que l'utilisateur ai accès à l'ensemble du contenu de la plateforme, vous devez valider son compte en suivant un des liens ci-dessous où en se rendant dans l'onglet validation de la plateforme.</p>
                     <br><br>
                     ".$lien."
                     ",

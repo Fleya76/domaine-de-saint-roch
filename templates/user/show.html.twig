@@ -5,70 +5,77 @@
 {% block body %}
     <div class="container mt-5">
         <h1>Utilisateur {{ user.firstName }} {{ user.lastName }}</h1>
-        <img width=100% src="{{chemin}}/{{user.image}}" alt="Image de l'utilisateur" onerror="this.src='/images/inconnu.png';">
-        <table class="table">
-            <tbody>
-                <tr>
-                    <th>Id</th>
-                    <td>{{ user.id }}</td>
-                </tr>
-                <tr>
-                    <th>Prénom</th>
-                    <td>{{ user.firstName }}</td>
-                </tr>
-                <tr>
-                    <th>Nom de famille</th>
-                    <td>{{ user.lastName }}</td>
-                </tr>
-                <tr>
-                    <th>Adresse email</th>
-                    <td><a href="mailto:{{user.email}}">{{ user.email }}</a></td>
-                </tr>
-                <tr>
-                    <th>Téléphone</th>
-                    <td><a href="tel:{{user.phone}}">{{ user.phone }}</a></td>
-                </tr>
-                <tr>
-                    <th>Adresse</th>
-                    <td>{{ user.address }}</td>
-                </tr>
-                <tr>
-                    <th>Ville</th>
-                    <td>{{ user.city }}</td>
-                </tr>
-                <tr>
-                    <th>Code postal</th>
-                    <td>{{ user.postalCode }}</td>
-                </tr>
-                <tr>
-                    <th>Valider</th>
-                    <td>{{ user.validation ? 'Oui' : 'Non' }}</td>
-                </tr>
-                <tr>
-                <th>Nom et race du chien</th>
-                    <td>
-                {% for dog in user.dog %}
-                    <a href="{{ path('dog_show', {'userConnect' : app.user.id, 'id' : dog.id}) }}">{{ dog }}</a>
-                    <br>
-                {% endfor %}
-                    </td>
-                </tr>
+        <div class="row">
+            <div class="col-lg">
+                <img width=100% src="{{chemin}}/{{user.image}}" alt="Image de l'utilisateur" onerror="this.src='/images/inconnu.png';">
+            </div>
+            <div class="col-lg">
+               <table class="table">
+                    <tbody>
+                        <tr>
+                            <th>Id</th>
+                            <td>{{ user.id }}</td>
+                        </tr>
+                        <tr>
+                            <th>Prénom</th>
+                            <td>{{ user.firstName }}</td>
+                        </tr>
+                        <tr>
+                            <th>Nom de famille</th>
+                            <td>{{ user.lastName }}</td>
+                        </tr>
+                        <tr>
+                            <th>Adresse email</th>
+                            <td><a href="mailto:{{user.email}}">{{ user.email }}</a></td>
+                        </tr>
+                        <tr>
+                            <th>Téléphone</th>
+                            <td><a href="tel:{{user.phone}}">{{ user.phone }}</a></td>
+                        </tr>
+                        <tr>
+                            <th>Adresse</th>
+                            <td>{{ user.address }}</td>
+                        </tr>
+                        <tr>
+                            <th>Ville</th>
+                            <td>{{ user.city }}</td>
+                        </tr>
+                        <tr>
+                            <th>Code postal</th>
+                            <td>{{ user.postalCode }}</td>
+                        </tr>
+                        <tr>
+                            <th>Valider</th>
+                            <td>{{ user.validation ? 'Oui' : 'Non' }}</td>
+                        </tr>
+                        <tr>
+                        <th>Nom et race du chien</th>
+                            <td>
+                        {% for dog in user.dog %}
+                            <a href="{{ path('dog_show', {'userConnect' : app.user.id, 'id' : dog.id}) }}">{{ dog }}</a>
+                            <br>
+                        {% endfor %}
+                            </td>
+                        </tr>
 
-                {% for contract in user.contract %}
-                    {% if contract.endAt < dateTime %}
-                        <tr>
-                            <th>Ancien contrat</th>
-                            <td><a href="{{ path('contract_show', {'id' : contract.id}) }}">{{contract}}</a></td>
-                        </tr>        
-                    {% else %}
-                        <tr>
-                            <th>Contrat en cours</th>
-                            <td><a href="{{ path('contract_show', {'id' : contract.id}) }}">{{contract}}</a></td>
-                        </tr>  
-                    {% endif %}
-                {% endfor %}
-            </tbody>
-        </table>
+                        {% for contract in user.contract %}
+                            {% if contract.endAt < dateTime %}
+                                <tr>
+                                    <th>Ancien contrat</th>
+                                    <td><a href="{{ path('contract_show', {'id' : contract.id}) }}">{{contract}}</a></td>
+                                </tr>        
+                            {% else %}
+                                <tr>
+                                    <th>Contrat en cours</th>
+                                    <td><a href="{{ path('contract_show', {'id' : contract.id}) }}">{{contract}}</a></td>
+                                </tr>  
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+     
         
         <div class="actionButton">
             <a href="{{ path('dog_new', {'user' : user.id}) }}">

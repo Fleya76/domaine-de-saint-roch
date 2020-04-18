@@ -7,16 +7,19 @@
     <div class="collapse navbar-collapse" id="navbarColor01">
         <ul class="navbar-nav mr-auto">
             {% if app.user %}
-                <li class="nav-item active">
-                    <a class="nav-link" href="{{ path("booking_index") }}">Planning</span></a>
-                </li>
+                {# TODO: Enlever le is granted quand la mise à jour du planning sera OK #}
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{{ path("booking_index") }}">Planning</span></a>
+                    </li>
+                {% endif %}
+
                 <li class="nav-item">
-                    {# TODO: Créer le système de vidéo #}
                     <a class="nav-link" href="{{ path("video_index") }}">Les cours vidéos</a>
                 </li> 
                 <li class="nav-item">
                     {# TODO: Créer le système de prise de rendez-vous individuel #}
-                    <a class="nav-link" href="{{ path("message_new", {'id' : app.user.id}) }}">Prise de rendez-vous</a>
+                    <a class="nav-link" href="{{ path("message_new", {'id' : app.user.id}) }}">Contactez le domaine</a>
                 </li> 
             {% endif %}
             {# <li class="nav-item">
@@ -29,7 +32,6 @@
                     <a class="nav-link" href="{{ path("app_login") }}">Connexion</a>
                 </li>  
                 <li class="nav-item">
-                    {# TODO: Faire le formulaire d'inscription #}
                     <a class="nav-link" href="{{ path("app_register") }}">Inscription</a>
                 </li>  
             {% endif %}
@@ -84,13 +86,18 @@
                     <a class="nav-link" href="{{ path("video_new") }}">Ajouter une vidéo</a>
                 </li> 
                 {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path("user_show", {'id': app.user.id}) }}">Mon profil</a>
-                    </li>
-                    <li class="nav-item">
-                        {# TODO: Faire les badges de compte à valider #}
-                        <a class="nav-link" href="{{ path("booking_by_user", {'id': app.user.id}) }}">Mes cours</a>
-                    </li>     
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path("user_show", {'id': app.user.id}) }}">Mon profil</a>
+                        </li>
+                        {% if is_granted('ROLE_ADMIN') %}
+                        {# TODO: Enlever le is granted quand la mise à jour du planning sera OK #}
+                            <li class="nav-item">
+                                {# TODO: Faire les badges de compte à valider #}
+                                <a class="nav-link" href="{{ path("booking_by_user", {'id': app.user.id}) }}">Mes cours</a>
+                            </li>  
+                        {% endif %}
+                  
+                       
                 {% endif %}
 
                 <li class="nav-item">

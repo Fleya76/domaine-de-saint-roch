@@ -1,9 +1,13 @@
-{# templates/bundles/TwigBundle/Exception/error404.html.twig #}
+
 {% extends 'base.html.twig' %}
-{% block title %}Erreur{% endblock %}
+{% block title %}Domaine de Saint-Roch | Erreur 404{% endblock %}
 {% block body %}
-    <h3 class="text-center">ERREUR 404 - page non trouvée</h3>
-	<div class="text-center"  > 
-           <img class="img-responsive" src="/images/404.jpg">    
+    <div class="container text-center">
+        <h3>Page non trouvé</h3>
+        <img src="/images/Logo-DSR.png" alt="Logo du domaine">
+        <div> 
+            {{ exception.message }}  
+        </div>
     </div>
+
 {% endblock %}
