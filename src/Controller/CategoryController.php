@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Data\SearchData;
 use App\Entity\Category;
+use App\Form\SearchType;
 use App\Form\CategoryType;
 use App\Repository\CategoryRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,13 +19,22 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class CategoryController extends AbstractController
 {
     /**
-     * @Route("/", name="category_index", methods={"GET"})
+     * @Route("/", name="category_index")
      * @Security("is_granted('ROLE_ADMIN')")
      */
-    public function index(CategoryRepository $categoryRepository): Response
+    public function index(CategoryRepository $categoryRepository, Request $request): Response
     {
+        $data = new SearchData();
+        $data->page = $request->get('page', 1);
+        $form = $this->createForm(SearchType::class, $data);
+        
+        $form->handleRequest($request);
+        $categories = $categoryRepository->findSearch($data);
+
         return $this->render('category/index.html.twig', [
-            'categories' => $categoryRepository->findAll(),
+            // 'categories' => $categoryRepository->findAll(),
+            'categories' => $categories,
+            'form' => $form->createView(),
         ]);
     }
 

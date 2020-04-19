@@ -15,7 +15,8 @@
         eiusmod minim diamlorem laboriosam, mus ratione nobis condimentum velit mauris porttitor p
         er sollicitudin rhoncus magni egestas curae irure faucibus accusamus. Consectetuer neque pa
         riatur atque elementum hendrerit, autem lacus incididunt vel! Inceptos class, sodales provident cupidatat excepturi.</p>
+        {% include "_parts/_search.html.twig" %}
         {{ include('user/_table_users.html.twig', {'action' : 'view'}) }}
-        {# {{ knp_pagination_render(users) }} #}
+        {{ knp_pagination_render(users) }}
     </div>
 {% endblock %}

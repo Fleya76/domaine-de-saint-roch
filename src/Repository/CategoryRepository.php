@@ -2,9 +2,13 @@
 
 namespace App\Repository;
 
+use App\Data\SearchData;
 use App\Entity\Category;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
+use Knp\Component\Pager\PaginatorInterface;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Category|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,9 +18,15 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  */
 class CategoryRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    /**
+     * @var PaginatorInterface
+     */
+    private $paginator;
+
+    public function __construct(ManagerRegistry $registry, PaginatorInterface $paginator)
     {
         parent::__construct($registry, Category::class);
+        $this->paginator = $paginator;
     }
 
     // /**
@@ -47,4 +57,41 @@ class CategoryRepository extends ServiceEntityRepository
         ;
     }
     */
+
+        /**
+     * Récupère les produits en lien avec une recherche
+     * @return PaginationInterface
+     */
+    public function findSearch(SearchData $search): PaginationInterface
+    {
+        $query = $this->getSearchQuery($search)->getQuery();
+        return $this->paginator->paginate(
+            $query,
+            $search->page,
+            15
+        );
+    }
+    
+    /**
+     * @param SearchData $search
+     * @return integer[]
+     */
+    private function getSearchQuery(SearchData $search): QueryBuilder
+    {
+        $query = $this
+        ->createQueryBuilder('category');
+        // ->select('d', 'user')
+        // ->join('user.dog', 'd');
+
+        if(!empty($search->q))
+        {
+            $query = $query 
+                ->andWhere('category.title LIKE :q')
+                ->setParameter('q', "%{$search->q}%");
+        }
+
+        return $query;
+    }
+
+    
 }

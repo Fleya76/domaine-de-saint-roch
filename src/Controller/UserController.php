@@ -5,6 +5,8 @@ namespace App\Controller;
 use DateTime;
 use App\Entity\User;
 use App\Entity\Message;
+use App\Data\SearchData;
+use App\Form\SearchType;
 use App\Form\MessageType;
 use App\Form\UpdateUserType;
 use App\Service\FileUploader;
@@ -24,26 +26,23 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class UserController extends AbstractController
 {
     /**
-     * @Route("/", name="user_index", methods={"GET"})
+     * @Route("/", name="user_index")
      * @Security("is_granted('ROLE_ADMIN')")
      */
-    public function index(UserRepository $userRepository, PaginatorInterface $paginator): Response
+    public function index(UserRepository $userRepository, PaginatorInterface $paginator, Request $request): Response
     {
-        // $limitPerPage = 10;
-        // $users =  $userRepository->findBy(['validation' => '1']);
-        // dump(ceil(count($users) / $limitPerPage));
-        // $pagination = $paginator->paginate(
-        //     $users, 
-        //     // count($users / $limitPerPage), /*page number*/
-        //     // ceil(count($users) / $limitPerPage),
-        //     // count($users) / $limitPerPage,
-        //     1,
-        //     $limitPerPage /*limit per page*/
-        // );
-        // TODO : Ajouter une pagination
+        $data = new SearchData();
+        $data->page = $request->get('page', 1);
+        $form = $this->createForm(SearchType::class, $data);
+        
+        $form->handleRequest($request);
+        $users = $userRepository->findSearch($data);
+
         return $this->render('user/overview.html.twig', [
-            'users' => array_reverse($userRepository->findBy(['validation' => '1'])),
-            'dateTime' => new DateTime()
+            // 'users' => array_reverse($userRepository->findBy(['validation' => '1'])),
+            'users' => $users,
+            'dateTime' => new DateTime(),
+            'form' => $form->createView(),
         ]);
     }
 

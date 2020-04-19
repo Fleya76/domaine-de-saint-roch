@@ -5,7 +5,9 @@
 {% block body %}
     <div class="container">
         <h1>Catégorie disponible sur le Domaine de Saint-Roch</h1>
-        <table class="table">
+        {% include "_parts/_search.html.twig" %}
+
+        <table class="table mt-3">
             <thead>
                 <tr>
                     <th>Id</th>
@@ -30,6 +32,8 @@
             {% endfor %}
             </tbody>
         </table>
+       
+        {{ knp_pagination_render(categories) }}
         <a href="{{ path('category_new') }}"><button type="button" class="btn btn-success mr-1 mb-3">Créer une nouvelle catégorie</button></a>
     </div>
 {% endblock %}
